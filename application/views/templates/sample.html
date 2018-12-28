@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="<?php echo base_url()?>public/img/logo/logosm.png" type="image/png">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title><?php echo $title; ?></title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Bootstrap core CSS -->
+    <link href="<?php echo base_url()?>public/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="<?php echo base_url()?>public/css/mdb.min.css" rel="stylesheet">
+    <!-- Your custom styles (optional) -->
+    <link href="<?php echo base_url()?>public/css/style.min.css" rel="stylesheet">
+
+    <style type="text/css">
+    /*body.modal-open {
+        overflow: hidden;
+    }
+*/      @media (min-width: 800px) and (max-width: 850px) {
+              .navbar:not(.top-nav-collapse) {
+                  background: #1C2331!important;
+              }
+          }
+    </style>
+    
+</head>
+<body class="grey lighten-5">
+
+<!-- Navbar -->
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark default-color scrolling-navbar" id="navbarTop">
+    <div class="container">
+
+      <!-- Brand -->
+      <a class="navbar-brand" href="<?php echo base_url();?>borrower">
+        <img src="<?php echo base_url()?>public/img/logo/logosmw.png" style="width: 70px">
+      </a>
+
+      <!-- Collapse -->
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- Links -->
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+        <!-- Left -->
+        <ul class="navbar-nav mr-auto smooth-scroll">
+          <li class="nav-item active">
+            <a class="nav-link" href="<?php echo base_url();?>borrower"><strong>Dashboard</strong>
+              <span class="sr-only">(current)</span>
+            </a>
+          </li>
+          <!-- <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Borrow</a>
+                <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" href="#">Personal Loan</a>
+                    <a class="dropdown-item" href="#">Small Business</a>
+                </div>
+            </li> -->
+          <li class="nav-item">
+            <a class="nav-link" href="<?php echo base_url()?>borrower/loanbook" ><strong>Loanbook</strong></a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="<?php echo base_url()?>borrower/loan" ><strong>Apply Loan</strong></a>
+          </li>
+
+        </ul>
+
+        <!-- <div class="flexbox m-auto">
+          <form class="form-inline">
+              <div class="md-form my-0">
+                  <input class="form-control mr-sm-2" type="text" placeholder="Search keyword" aria-label="Search">
+              </div>
+          </form>
+        </div> -->
+
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="<?php echo base_url()?>borrower/profile" ><strong>EM</strong></a>
+          </li>
+          <li class="nav-item dropdown">
+              <a class="nav-link" id="navbarDropdownPhotoNoti" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <strong>
+                  <i class="fa fa-bell teal-text" aria-hidden="true"></i>
+                </strong>
+              </a>
+
+              <div class="dropdown-menu dropdown-menu-right float-left dropdown-primary z-depth-1" aria-labelledby="navbarDropdownPhotoNoti">
+                  <a class="dropdown-item" href="#">Sent loan offer</a>
+                  <a class="dropdown-item" href="#">From barangay</a>
+                  <a class="dropdown-item" href="#">From admin</a>
+                  <a class="" href="#" >See all</a>
+              </div>
+          </li>
+
+          <li class="nav-item dropdown">
+              <a class="nav-link" id="navbarDropdownPhotoInbox" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <strong>
+                  <i class="fa fa-commenting teal-text" aria-hidden="true"></i>
+                </strong>
+              </a>
+
+              <div class="dropdown-menu dropdown-menu-right float-left dropdown-primary z-depth-1" aria-labelledby="navbarDropdownPhotoInbox">
+                  <a class="dropdown-item" href="#">Barangay Admin</a>
+                  <a class="dropdown-item" href="#">System Admin</a>
+                  <a class="" href="<?php echo base_url()?>borrower/inbox" >Go to inbox</a>
+              </div>
+          </li>
+
+        <!-- Dropdown -->
+          <li class="nav-item dropdown">
+              
+              <a class="nav-link dropdown-toggle" id="navbarDropdownPhotoLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <img src="<?php echo base_url()?>public/img/anonymous/male.jpg" alt="Profile" style="width: 25px" class="rounded-circle">
+              </a>
+
+              <div class="dropdown-menu dropdown-menu-right float-left dropdown-primary z-depth-1" aria-labelledby="navbarDropdownPhotoLink">
+                  <a class="dropdown-item" href="<?php echo base_url()?>borrower/profile">Profile</a>
+                  <a class="dropdown-item" href="<?php echo base_url()?>borrower/settings">Settings</a>
+                  <a class="dropdown-item" href="#">Loan status</a>
+                  <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modalSwitchUserType" data-backdrop="static">Switch user type</a>
+                  <a class="dropdown-item" onclick="return confirm('Do you want to logout?');" href="#">Sign out</a>
+              </div>
+          </li>
+        </ul>
+
+      </div>
+    </div>
+  </nav>
+  <!-- Navbar -->
+
+  <!-- Modal -->
+<div class="modal fade" id="modalSwitchUserType" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Switch to Lender?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="container-fluid">
+                  Lorem Ipsum
+                  Lorem Ipsum
+                  Lorem Ipsum
+                  Lorem Ipsum
+                  Lorem Ipsum
+                  Lorem Ipsum
+                  Lorem Ipsum
+                  Lorem Ipsum
+                  Lorem Ipsum
+                  Lorem Ipsum
+                </p>
+                <div class="form-group container-fluid" id="switchOptions">
+                  <select class="form-control" >
+                    <option selected disabled>Current Type Borrower</option>
+                    <option vale="Lender">Switch to Lender</option>
+                  </select>
+                </div>
+
+                <div class="form-group container-fluid">
+                  <!-- Default input email -->
+                  <label for="defaultFormLoginPasswordEx" class="dark-grey-text">Your password</label>
+                  <input type="password" name="password" id="password" placeholder="**********" class="form-control pressEnter">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-md btn-danger" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-md btn-primary">Switch</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<main class="mainlayout" style="margin-top: 6%">
+
+<div class="container-fluid">
+
+        <!-- Intro -->  
+    <section class="section completeprofile-section my-5">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active">Dashboard <i class="fa fa-tachometer" aria-hidden="true"></i></li>
+        </ol>
+
+        <!--Grid row-->
+        <div class="row wow fadeIn">
+
+            <!--Grid column-->
+            <div class="col-xl-3 col-md-6 mb-4">
+
+                <!--Card teal accent-4-->
+                <div class="card classic-admin-card teal accent-4">
+                    <div class="card-body">
+                        <div class="pull-right">
+                            <i class="fa fa-money"></i>
+                        </div>
+                        <p class="white-text">LOAN AMOUNT</p>
+                        <h4 >? 2,000.00</h4>
+                        <small>August 1, 2018.</small>
+                    </div>
+                    <div class="progress" style="height: 10px">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated bg teal" role="progressbar" style="width: 100%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <div class="card-body">
+                        <p>Interest rate 10%</p>
+                    </div>
+                </div>
+                <!--/.Card teal accent-4-->
+
+            </div>
+            <!--Grid column-->
+
+            <!--Grid column-->
+            <div class="col-xl-3 col-md-6 mb-4">
+
+                <!--Card teal accent-4-->
+                <div class="card classic-admin-card teal accent-4">
+                    <div class="card-body">
+                        <div class="pull-right">
+                            <i class="fa fa-calendar-check-o"></i>
+                        </div>
+                        <p class="white-text">REPAYMENT (<?php echo strtoupper(date('F')) ;?>)</p>
+                        <h4 >? 1,100.00</h4>
+                        <small>Due date august 31, 2018.</small>
+                        <small><a href="#!"><span class="animated bounce">Pay early</span></a></small>
+                    </div>
+                    <div class="progress" style="height: 10px">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated bg teal" role="progressbar" style="width: 50%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <div class="card-body">
+                        <p>Monthly amortization ? 1,100</p>
+                    </div>
+                </div>
+                <!--/.Card teal accent-4-->
+
+            </div>
+            <!--Grid column-->
+
+            <!--Grid column-->
+            <div class="col-xl-3 col-md-6 mb-4">
+
+                <!--Card teal accent-4-->
+                <div class="card classic-admin-card teal accent-4">
+                    <div class="card-body">
+                        <div class="pull-right">
+                            <i class="fa fa-calendar"></i>
+                        </div>
+                        <p class="white-text">REMAINING MONTHS</p>
+                        <h4 >2 Months</h4>
+                        <small>August - September</small>
+                    </div>
+                    <div class="progress" style="height: 10px">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated bg teal" role="progressbar" style="width: 100%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <div class="card-body">
+                        <p>2 months term</p>
+                    </div>
+                </div>
+                <!--/.Card teal accent-4-->
+
+            </div>
+            <!--Grid column-->
+
+            <!--Grid column-->
+            <div class="col-xl-3 col-md-6 mb-4">
+
+                <!--Card teal accent-4-->
+                <div class="card classic-admin-card teal accent-4">
+                    <div class="card-body">
+                        <div class="pull-right">
+                            <i class="fa fa-balance-scale"></i>
+                        </div>
+                        <p class="white-text">OUTSTANDING BALANCE</p>
+                        <h4 >? 1,100.00</h4>
+                        <small>Good</small>
+                    </div>
+                    <div class="progress" style="height: 10px">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated bg teal" role="progressbar" style="width: 100%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <div class="card-body">
+                        <p>Accrued interest 7%</p>
+                    </div>
+                </div>
+                <!--/.Card teal accent-4-->
+
+            </div>
+            <!--Grid column-->
+
+        </div>
+        <!--Grid row-->
+    </section>
+    <!-- end intro -->
+
+    <section class="section table-section my-5 wow fadeIn">
+        <div class="row">
+            <!--Grid column-->
+            <div class="col-xl-6 col-md-6 mb-4">
+                <!--Card teal accent-4-->
+                <div class="card classic-admin-card">
+                    <div class="table-responsive" style="max-height: 500px">
+                        <div class="teal accent-4 sticky-top z-depth-1 rounded-top">
+                            <h5 class="h6 p-2">Payments Sort by:
+                                <select class="rounded">
+                                    <option>ID</option>
+                                    <option>Date</option>
+                                  </select>
+                            </h5>
+                        </div>
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Loan ID</th>
+                            <th scope="col">Term</th>
+                            <th scope="col">Amount Paid</th>
+                            <th scope="col">Payment Date</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <th scope="row">1</th>
+                            <td>1234</td>
+                            <td>2</td>
+                            <td>? 1,100.00</td>
+                            <td>08/26/2018</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">2</th>
+                            <td>1235</td>
+                            <td>6</td>
+                            <td>? 1,500.00</td>
+                            <td>07/26/2018</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">3</th>
+                            <td>1234</td>
+                            <td>2</td>
+                            <td>? 1,100.00</td>
+                            <td>08/26/2018</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">4</th>
+                            <td>1235</td>
+                            <td>6</td>
+                            <td>? 1,500.00</td>
+                            <td>07/26/2018</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">5</th>
+                            <td>1234</td>
+                            <td>2</td>
+                            <td>? 1,100.00</td>
+                            <td>08/26/2018</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      <hr>
+                    </div>
+                    <a href="#!" class="m-auto pb-3">View all</a>
+                </div>
+                <!--/.Card teal accent-4-->
+            </div>
+            <!--Grid column-->
+
+            <!--Grid column-->
+            <div class="col-xl-3 col-md-6 mb-4">
+
+                <!--Card teal accent-4-->
+                <div class="card classic-admin-card teal accent-4">
+                    <div class="teal accent-4 sticky-top z-depth-1 rounded-top">
+                        <h5 class="h6 m-2">Loan Status</h5>
+                    </div>
+                    <div class="white" style="min-height: 400px">
+                        <div class="container-fluid m-2">
+                            <i class="fa fa-file-text-o grey-text" aria-hidden="true"></i>
+                            <span class="dark-grey-text">12346 - ? 5,500</span>
+                            <span class="dark-grey-text ml-2">Pending...</span>
+                            <small>
+                                <a href="#!" data-toggle="tooltip" data-placement="top" title="View checklist" class="float-right mr-5">View</a>
+                                <hr>
+                            </small>
+                        </div>
+
+                        <div class="container-fluid m-2">
+                            <i class="fa fa-file-text-o grey-text" aria-hidden="true"></i>
+                            <span class="dark-grey-text">12346 - ? 5,500</span>
+                            <span class="dark-grey-text ml-2">Rejected</span>
+                            <small>
+                                <a href="#!" data-toggle="tooltip" data-placement="top" title="View checklist" class="float-right mr-5">View</a>
+                                <hr>
+                            </small>
+                        </div>
+
+                        <div class="container-fluid m-2">
+                            <i class="fa fa-file-text-o grey-text" aria-hidden="true"></i>
+                            <span class="dark-grey-text">12346 - ? 5,500</span>
+                            <span class="dark-grey-text ml-2">Aproved</span>
+                            <small>
+                                <a href="#!" data-toggle="tooltip" data-placement="top" title="View checklist" class="float-right mr-5">View</a>
+                                <hr>
+                            </small>
+                        </div>
+                    </div>
+                </div>
+                <!--/.Card teal accent-4-->
+
+            </div>
+            <!--Grid column-->
+
+            <!--Grid column-->
+            <div class="col-xl-3 col-md-6 mb-4">
+
+                <!--Card teal accent-4-->
+                <div class="card classic-admin-card teal accent-4">
+                    <div class="teal accent-4 sticky-top z-depth-1 rounded-top">
+                        <h5 class="h6 m-2">Reserved</h5>
+                    </div>
+                    <div class="white" style="min-height: 400px">
+                        <div class="container-fluid m-2">
+                            <i class="fa fa-file-text-o grey-text" aria-hidden="true"></i>
+                            <span class="dark-grey-text">12346 - ? 5,500</span>
+                            <span class="dark-grey-text ml-2">Pending...</span>
+                            <small>
+                                <a href="#!" data-toggle="tooltip" data-placement="top" title="View checklist" class="ml-3">View</a>
+                                <hr>
+                            </small>
+                        </div>
+
+                        <div class="container-fluid m-2">
+                            <i class="fa fa-file-text-o grey-text" aria-hidden="true"></i>
+                            <span class="dark-grey-text">12346 - ? 5,500</span>
+                            <span class="dark-grey-text ml-2">Pending...</span>
+                            <small>
+                                <a href="#!" data-toggle="tooltip" data-placement="top" title="View checklist" class="ml-3">View</a>
+                                <hr>
+                            </small>
+                        </div>
+
+                        <div class="container-fluid m-2">
+                            <i class="fa fa-file-text-o grey-text" aria-hidden="true"></i>
+                            <span class="dark-grey-text">12346 - ? 5,500</span>
+                            <span class="dark-grey-text ml-2">Pending...</span>
+                            <small>
+                                <a href="#!" data-toggle="tooltip" data-placement="top" title="View checklist" class="ml-3">View</a>
+                                <hr>
+                            </small>
+                        </div>
+                    </div>
+                </div>
+                <!--/.Card teal accent-4-->
+
+            </div>
+            <!--Grid column-->
+
+        </div>
+        <!--Grid row-->
+    </section>
+        
+    </div>
+
+</main>
+
+
+<!-- SCRIPTS -->
+<!-- JQuery -->
+<script type="text/javascript" src="<?php echo base_url()?>public/js/jquery-3.3.1.min.js"></script>
+<!-- Bootstrap tooltips -->
+<script type="text/javascript" src="<?php echo base_url()?>public/js/popper.min.js"></script>
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src="<?php echo base_url()?>public/js/bootstrap.min.js"></script>
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="<?php echo base_url()?>public/js/mdb.min.js"></script>
+
+<script type="text/javascript">
+  // Animations initialization
+  new WOW().init();
+</script>
+
+<script type="text/javascript">
+ $(document).ready(function(){
+    // Tooltips Initialization
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip()
+    })
+ });
+</script>

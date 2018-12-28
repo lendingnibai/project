@@ -1,0 +1,61 @@
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class Borrower_monthly_repayments_model extends CI_Model {
+
+	private $table = 'borrower_monthly_repayments';
+
+	public function insert_monthly_repayments($monthly_repayments_data)
+	{
+		$result = $this->db->insert_batch($this->table, $monthly_repayments_data);
+		return $result;
+	}
+
+	public function get_my_monthly_repayments($loan_repayment_data)
+	{
+		$result = $this->db->get_where($this->table,$loan_repayment_data);
+		return $result;
+	}
+
+	public function update_monthly_repayment($repayment_data, $borrower_monthly_repayment_id)
+	{
+		$this->db->where('borrower_monthly_repayment_id', $borrower_monthly_repayment_id);
+		$result = $this->db->update($this->table, $repayment_data);
+		return $result;
+	}
+
+	//CHECK THE DUE DATE OF MONTHLY REPAYMENT KUNG NALAPAS NA MAG BUTANG UG PENALTY
+	public function check_monthly_repayment_due_date()
+	{
+		$query = "
+			SELECT bmr.borrower_monthly_repayment_id, bmr.registered_brgy_id, bmr.loan_id, bmr.borrower_id, bmr.loan_application_id, bmr.monthly_repayment, bmr.amount_paid, bmr.due_date, la.email, la.mobile_no, bmr.reference_code, TIMESTAMPDIFF(DAY, CURDATE(), bmr.due_date) AS 'remaining_days'
+			FROM borrower_monthly_repayments AS bmr
+			INNER JOIN loan_applications AS la 
+			ON bmr.loan_application_id = la.loan_application_id
+			WHERE bmr.status = 1
+			AND TIMESTAMPDIFF(DAY,CURDATE(),bmr.due_date) < 0 /*due date*/
+			AND bmr.is_fully_paid = 0
+			AND bmr.penalty = 0
+			AND bmr.is_passed_due_date = 0";
+		$result = $this->db->query($query);
+		return $result;
+		// AND bmr.registered_brgy_id = ".$this->session->registered_brgy_id."
+	}
+
+	//NOTIFY THE BORROWER FOR THE DUE DATE OF HIS/HER MONTHLY REPAYMENT
+	public function notify_borrower_monthly_repayment_due_date()
+	{
+		$query = "
+		SELECT bmr.borrower_monthly_repayment_id, bmr.registered_brgy_id, bmr.monthly_repayment, bmr.amount_paid, bmr.due_date, la.email, la.mobile_no, bmr.reference_code, TIMESTAMPDIFF(DAY, CURDATE(), bmr.due_date) AS 'remaining_days'
+		FROM borrower_monthly_repayments AS bmr
+		INNER JOIN loan_applications AS la 
+		ON bmr.loan_application_id = la.loan_application_id
+		WHERE bmr.status = 1
+		AND TIMESTAMPDIFF(DAY,CURDATE(),bmr.due_date) IN (0,1,2,3,4,5,6,7)
+		AND bmr.is_fully_paid = 0
+		AND bmr.is_notified = 0";
+		$result = $this->db->query($query);
+		return $result;
+		// AND bmr.registered_brgy_id = ".$this->session->registered_brgy_id."
+	}
+}
