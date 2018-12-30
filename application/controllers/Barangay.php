@@ -2107,7 +2107,7 @@ class Barangay extends MY_Controller {
 						'balance' => $new_balance
 					);
 					$this->transaction->insert_transaction($transaction_data);
-
+					
 					//INSERT BORROWER TRANSACTIONS
 					$borrower_new_outstanding_balance = $this->get_borrower_outstanding_current_balance($borrower_id) - $original_payment_amount;
 					$borrower_transaction_data = array(
