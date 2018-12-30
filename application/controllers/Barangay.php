@@ -2093,7 +2093,21 @@ class Barangay extends MY_Controller {
 				$payment_id = $this->pm->insert_payment($payment_data);
 				if ($payment_id > 0) 
 				{
-					//NOTE ADD TAG REMARKS KUNG WITH OR WITHOUT PENALTY
+					//GENERATE REFERNCE CODE FOR PAYMENT
+					$payment_reference_code = rand(111,999).strtoupper(substr($reference_code, 3, 3)).rand(1111,9999).'PYMT'.substr(date('Y'), 2, 2);
+					$new_balance = $original_payment_amount + $this->brgy_current_balance();
+					//INSERT BRGY TRANSACTIONS
+					$transaction_data = array(
+						'registered_brgy_id' => $this->session->registered_brgy_id,
+						'credit' => $original_payment_amount,
+						'reference_code' => $payment_reference_code,
+						'payment_id' => $payment_id,
+						'type' => 'Payment',
+						'type_code' => 2,
+						'balance' => $new_balance
+					);
+					$this->transaction->insert_transaction($transaction_data);
+
 					//INSERT BORROWER TRANSACTIONS
 					$borrower_new_outstanding_balance = $this->get_borrower_outstanding_current_balance($borrower_id) - $original_payment_amount;
 					$borrower_transaction_data = array(
