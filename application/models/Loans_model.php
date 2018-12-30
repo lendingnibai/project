@@ -54,11 +54,10 @@ class Loans_model extends CI_Model {
 	public function check_loan_end_term()
 	{
 		$query = "
-				SELECT l.loan_id, l.registered_brgy_id, l.borrower_id, l.loan_application_id, l.loan_amount, la.email, la.mobile_no, l.reference_code, TIMESTAMPDIFF(DAY, CURDATE(), l.end_term) AS 'remaining_days_term'
+				SELECT l.status, l.loan_id, l.registered_brgy_id, l.borrower_id, l.loan_application_id, l.loan_amount, la.email, la.mobile_no, l.reference_code, TIMESTAMPDIFF(DAY, CURDATE(), l.end_term) AS 'remaining_days_term'
 				FROM loans AS l
 				INNER JOIN loan_applications AS la ON l.loan_application_id = la.loan_application_id
-				WHERE l.status = 1
-				AND l.is_ended = 0
+				WHERE l.is_ended = 0
 				AND TIMESTAMPDIFF(DAY,CURDATE(),l.end_term) < 1";
 		$result = $this->db->query($query);
 		return $result;

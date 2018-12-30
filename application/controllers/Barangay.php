@@ -707,8 +707,11 @@ class Barangay extends MY_Controller {
 		$this->load->view('templates/barangay_footer');
 	}
 
-	public function __borrower_monthly_repayments($borrower_id, $loan_id, $loan_application_id, $reference_code, $monthly_repayment, $loan_term)
+	public function __borrower_monthly_repayments($borrower_id, $loan_id, $loan_application_id, $reference_code, $monthly_repayment, $loan_term, $interest_repayment, $loan_amount)
 	{
+		$monthly_interest = $interest_repayment / $loan_term;//get the monthly interest of the brgy from loan
+		$monthly_loan_repayment = $loan_amount / $loan_term;
+
 		$date_entry = date('Y-m-d');
 		$current_time = date('H:i:s');
 		$date_entry_day = date("d", strtotime($date_entry));
@@ -778,6 +781,8 @@ class Barangay extends MY_Controller {
 				'loan_application_id' => $loan_application_id,
 				'registered_brgy_id' => $this->session->registered_brgy_id,
 				'reference_code' => $reference_code,
+				'monthly_loan_repayment' => $monthly_loan_repayment,//BINUWAN NGA BAYRANAN SA LOAN
+				'monthly_interest' => $monthly_interest,//BINUWAN NGA BAYRANAN SA INTEREST
 				'monthly_repayment' => $monthly_repayment
 			);
 		}
@@ -901,7 +906,7 @@ class Barangay extends MY_Controller {
 				if ($loan_id > 0) 
 				{
 					//INSERT TO BORROWER MONTHLY REPAYMENTS TABLE
-					$borrower_monthly_repayment = $this->__borrower_monthly_repayments($borrower_id, $loan_id, $loan_application_id ,$reference_code, $monthly_repayment, $loan_term);
+					$borrower_monthly_repayment = $this->__borrower_monthly_repayments($borrower_id, $loan_id, $loan_application_id ,$reference_code, $monthly_repayment, $loan_term, $interest_repayment, $loan_amount);
 
 					$new_balance = $this->brgy_current_balance() - $loan_amount;
 					//INSERT BRGY TRANSACTIONS

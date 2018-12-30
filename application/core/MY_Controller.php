@@ -205,9 +205,14 @@ class MY_Controller	extends CI_Controller {
 				$mobile_no = $row->mobile_no;
 				$email = $row->email;
 				$registered_brgy_id = $row->registered_brgy_id;
+				//CHECK STATUS FIRST
+				if ($row->status == 1)
+					$status = 3;
+				else
+					$status = 2;
 
 				$loan_data = array(
-					'status' => 0,
+					'status' => $status,
 					'is_ended' => 1
 				);
 				//SET STATUS TO 0 AS TERM ENDED
