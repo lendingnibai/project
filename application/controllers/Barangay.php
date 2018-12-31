@@ -460,7 +460,7 @@ class Barangay extends MY_Controller {
 				$to_send_sms = $this->to_send_sms($mobile_no, $sms_message);
 
 	        	$this->output->set_output(json_encode(
-						array('message' => 'Barangay '.$barangay.' was successfully registered. '.$to_send_email.' '.$to_send_sms, 'code' => $code_number)
+						array('message' => 'Barangay staff '.$first_name.' '.$last_name.' was successfully registered. '.$to_send_email.' '.$to_send_sms, 'code' => $code_number)
 				));
 	        }
 		}
