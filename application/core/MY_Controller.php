@@ -395,14 +395,12 @@ class MY_Controller	extends CI_Controller {
 				show_404();
 				die();
 			}
-			
 		}
 		else
 		{
 			header("location: ".base_url('admin_login')."");
 			die();
 		}
-
 	}
 
 	public function brgy_session()
@@ -418,14 +416,12 @@ class MY_Controller	extends CI_Controller {
 				show_404();
 				die();
 			}
-			
 		}
 		else
 		{
 			header("location: ".base_url('barangay_login')."");
 			die();
 		}
-
 	}
 
 	public function lender_session()

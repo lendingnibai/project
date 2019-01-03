@@ -13,6 +13,7 @@ class Admin extends MY_Controller {
 		$this->load->model('User_accounts_model', 'uam');
 		$this->load->model('Registered_brgy_model', 'rbm');
 		$this->load->model('Brgy_user_details_model', 'budm');
+		$this->load->model('Brgy_yearly_quarters_model', 'byqm');
 
 	}
 
@@ -122,7 +123,6 @@ class Admin extends MY_Controller {
 
 	public function manage_barangay()
 	{
-		
 		$data['active_manage_barangay'] = 'active';//for navbar activate
 		$data['title'] = 'Manage Barangay';
 		$data['manage_barangay'] = 'manage_barangay';//for js indicator
@@ -134,6 +134,78 @@ class Admin extends MY_Controller {
 		$this->load->view('templates/adminnav');
 		$this->load->view('admin/admin_manage_barangay');
 		$this->load->view('templates/admin_footer');
+	}
+
+	public function __brgy_quarters($insert_brgy)
+	{
+		$a_year = 12;
+		$date_entry = date('Y-m-d');
+		$current_time = date('H:i:s');
+		$date_entry_day = date("d", strtotime($date_entry));
+		$date_entry_month = date("m", strtotime($date_entry));
+		$date_entry_year = date("Y", strtotime($date_entry));
+		$startdate = strtotime($date_entry);
+		$startdate = strtotime("+3 month", $startdate);// + 3 TO START THE COUNTING TO NEXT MONTH
+		$enddate = strtotime("+$a_year month", $startdate);
+		$ctr = 0;//COUNTER TO INDICATE WHERE WE GONNA BREAK THE WHILE LOOP
+
+		//DECLARE ARRAY FIRST WE WILL USING THIS VARIABLE FOR STORING MONTHS RESULT
+		$date_quarter_arr = array();
+		//STARTS FROM 29 AND UP
+		if ($date_entry_day >= 29)
+		{
+			while ($ctr < $a_year) 
+			{	
+				//SET TO 0 AFTER COUTING THE 12 AS DECEMBER TO START AGAIN THE COUNTING IN JANUARY
+				if ($date_entry_month == 12)
+					$date_entry_month = 0;
+				//ADD 1 EVERY LOOP FOR COUTING MONTHS
+				$date_entry_month += 3;
+				//COUNT THE TOTAL DAYS OF THE MONTH
+				$number_of_days_to_this_month = cal_days_in_month(CAL_GREGORIAN, $date_entry_month, date('Y',$startdate));
+				//CHECK IF THE DAY ENTERED IS GREATER THAN THEN USE THE MAXIMUM DAY OF THE MONTH
+				if ($date_entry_day > $number_of_days_to_this_month)
+				{
+					$dateObj   = DateTime::createFromFormat('!m', $date_entry_month);
+					$monthName = $dateObj->format('m');  //CONVERT NUMBER TO MONTH NAME
+					$date_quater =  date('Y',$startdate).'-'.$monthName.'-'.$number_of_days_to_this_month.' '.$current_time;//Y-m-d H:i:s 
+					$date_entry = strtotime(date('Y', $startdate).'-'.sprintf('%02d', $date_entry_month).'-'.$date_entry_day);
+					$startdate = strtotime("+$number_of_days_to_this_month days", $date_entry);//ADD 1 MONTH
+				}
+				else
+				{
+					$dateObj   = DateTime::createFromFormat('!m', $date_entry_month);
+					$monthName = $dateObj->format('m'); //CONVERT NUMBER TO MONTH NAME
+					$date_quater = date('Y',$startdate).'-'.$monthName.'-'.$date_entry_day.' '.$current_time;
+					$date_entry = strtotime(date('Y', $startdate).'-'.sprintf('%02d', $date_entry_month).'-'.$date_entry_day);
+					$startdate = strtotime("+$number_of_days_to_this_month days", $date_entry);//ADD 1 MONTH
+				}
+				$ctr++;
+				//STORE DATA TO AN ARRAY
+				$date_quarter_arr[] .= $date_quater;
+			}
+		}
+		else
+		{
+			while ($startdate < $enddate) 
+			{
+			  	$date_quater =  date("Y-m-d", $startdate).' '.$current_time;//Y-m-d H:i:s
+			  	$startdate = strtotime("+3 month", $startdate);
+			  	//STORE DATA TO AN ARRAY
+			  	$date_quarter_arr[] .= $date_quater;
+			}
+		}
+
+		$quarter_data = array(
+			'first_quarter' => $date_quarter_arr[0],
+			'second_quarter' => $date_quarter_arr[1],
+			'third_quarter' => $date_quarter_arr[2],
+			'fourth_quarter' => $date_quarter_arr[3],
+			'registered_brgy_id' => $insert_brgy
+		);
+
+		$insert_brgy_quarters = $this->byqm->insert_brgy_quarters($quarter_data);
+		return $insert_brgy_quarters;
 	}
 
 	public function add_brgy_account()
@@ -271,6 +343,8 @@ class Admin extends MY_Controller {
 
 		        if ($insert_brgy_details > 0) 
 		        {
+		        	$this->__brgy_quarters($insert_brgy);//insert brgy  quarters pass registered brgy id
+
 		        	$log_data = array(
 						'action' => 'Super admin added new barangay ' . '('.$barangay.')',
 						'user_agent' => $this->user_agent(),
