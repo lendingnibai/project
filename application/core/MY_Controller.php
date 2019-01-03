@@ -148,6 +148,7 @@ class MY_Controller	extends CI_Controller {
 					$to_send_sms = $this->to_send_sms($mobile_no, $sms_message);
 				}
 			}
+			
 		}
 	}
 	// NOTIFY THE USER
