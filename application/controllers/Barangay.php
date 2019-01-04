@@ -312,6 +312,8 @@ class Barangay extends MY_Controller {
 
 	public function index()
 	{	
+		$this->check_quarterly_earnings();
+		die();
 		$this->__is_not_completed();
 		//IF THERE'S LOAN TERM ENDED UPDATE THE STATUS
 		$this->__check_loan_end_term();

@@ -11,5 +11,11 @@ class Brgy_yearly_quarters_model extends CI_Model {
 		$result = $this->db->insert_id();
 		return $result;
 	}
+
+	public function get_this_quarters($quarter_data)
+	{
+		$result = $this->db->get_where($this->table, $quarter_data);
+		return $result;
+	}
 	
 }

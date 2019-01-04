@@ -14,7 +14,6 @@ class Admin extends MY_Controller {
 		$this->load->model('Registered_brgy_model', 'rbm');
 		$this->load->model('Brgy_user_details_model', 'budm');
 		$this->load->model('Brgy_yearly_quarters_model', 'byqm');
-
 	}
 
 	public function __check_email($email)

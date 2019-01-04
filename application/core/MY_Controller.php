@@ -23,6 +23,7 @@ class MY_Controller	extends CI_Controller {
 		$this->load->model('Borrower_monthly_repayments_model', 'bmrm');
 		$this->load->model('Lender_monthly_returns_model', 'lmrm');
 		$this->load->model('Investments_model', 'im');
+		$this->load->model('Brgy_yearly_quarters_model', 'byqm');
 	}
 
 	public function __check_investment_end_term()
@@ -283,6 +284,41 @@ class MY_Controller	extends CI_Controller {
 				$this->lm->log($log_data);
 			}
 		}
+	}
+
+	public function check_quarterly_earnings()
+	{	
+		$quarter_data = array(
+			'registered_brgy_id' => $this->session->registered_brgy_id
+		);
+		$get_quarters = $this->byqm->get_this_quarters($quarter_data);
+		var_dump($get_quarters->result());
+		foreach ($get_quarters->result() as $row) 
+		{
+			$first_quarter = $row->first_quarter;
+			$second_quarter = $row->second_quarter;
+			$third_quarter = $row->third_quarter;
+			$fourth_quarter = $row->fourth_quarter;
+		}
+
+		if (date('m') == date('m', strtotime($first_quarter))) 
+		{
+			$date_quarter = date('Y').'-'.date('m-d', strtotime($first_quarter));
+		}
+		elseif (date('m') == date('m', strtotime($second_quarter)))
+		{
+			
+		}
+		elseif (date('m') == date('m', strtotime($third_quarter)))
+		{
+			
+		}
+		elseif (date('m') == date('m', strtotime($fourth_quarter)))
+		{
+			
+		}
+		$loan_earnings = $this->bmrm->check_quarterly_earnings($date_quarter, $this->session->registered_brgy_id);
+		var_dump($loan_earnings->result());
 	}
 
 	public function has_internet()
