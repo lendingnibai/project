@@ -24,6 +24,7 @@ class MY_Controller	extends CI_Controller {
 		$this->load->model('Lender_monthly_returns_model', 'lmrm');
 		$this->load->model('Investments_model', 'im');
 		$this->load->model('Brgy_yearly_quarters_model', 'byqm');
+		$this->load->model('Brgy_earnings_model', 'bem');
 	}
 
 	public function __check_investment_end_term()
@@ -288,37 +289,79 @@ class MY_Controller	extends CI_Controller {
 
 	public function check_quarterly_earnings()
 	{	
-		$quarter_data = array(
-			'registered_brgy_id' => $this->session->registered_brgy_id
-		);
-		$get_quarters = $this->byqm->get_this_quarters($quarter_data);
-		var_dump($get_quarters->result());
+		// $quarter_data = array(
+		// 	'registered_brgy_id' => $this->session->registered_brgy_id
+		// );
+		$get_quarters = $this->byqm->get_this_quarters();
 		foreach ($get_quarters->result() as $row) 
 		{
-			$first_quarter = $row->first_quarter;
-			$second_quarter = $row->second_quarter;
-			$third_quarter = $row->third_quarter;
-			$fourth_quarter = $row->fourth_quarter;
-		}
+			$date_quarter = null;
+			$quarter_type = 'First Quarter of '.date('Y');
+			if (date('m') == date('m', strtotime($row->first_quarter))) 
+			{
+				$quarter_type = 'First Quarter of '.date('Y');
+				$date_quarter = date('Y').'-'.date('m-d', strtotime($row->first_quarter));
+			}
+			elseif (date('m') == date('m', strtotime($row->second_quarter)))
+			{
+				$quarter_type = 'Second Quarter of '.date('Y');
+				$date_quarter = date('Y').'-'.date('m-d', strtotime($row->second_quarter));
+			}
+			elseif (date('m') == date('m', strtotime($row->third_quarter)))
+			{
+				$quarter_type = 'Third Quarter of '.date('Y');
+				$date_quarter = date('Y').'-'.date('m-d', strtotime($row->third_quarter));
+			}
+			//&& DATE TO AVOID DISPLAYING THE FOURTH QUARTER FROM STARTING
+			elseif (date('m') == date('m', strtotime($row->fourth_quarter)) && date('Y') != date('Y', strtotime($row->date_created)))
+			{
+				$quarter_type = 'Fourth Quarter of '.date('Y');
+				$date_quarter = date('Y').'-'.date('m-d', strtotime($row->fourth_quarter));
+			}
+			$loan_earnings = $this->bmrm->check_quarterly_earnings($date_quarter, $row->registered_brgy_id);
+			$to_be_collected_earnings = $this->bmrm->check_quarterly_to_be_collected($date_quarter, $row->registered_brgy_id);
+			
+			foreach ($loan_earnings->result() as $l_e_row) 
+			{
+				
+				//CHECK IF THERE'S A QUARTERLY EARNINGS THEN INSERT TO TABLE BRGY EARNINGS AND UPDATE brgy_mos_repayment table
+				if ($l_e_row->loan_earnings != null && $l_e_row->end_quarter != null) 
+				{
+					$admin_commission_rate = 5;
+					$admin_commission = $admin_commission_rate * ($l_e_row->loan_earnings  / 100);
+					//INSERT TO BRGY EARNINGS
+					$earnings_data = array(
+						'registered_brgy_id' => $row->registered_brgy_id,
+						'earnings' => $l_e_row->loan_earnings,//WALA PA NI GI DEDUCAN SA INVESTMENT RETURN RATE
+						'quarter_type' => $quarter_type,
+						'admin_commission_rate' => $admin_commission_rate.'%',
+						'admin_commission' => $admin_commission
+					);
+					$brgy_earned = $this->bem->insert_brgy_earnings($earnings_data);
 
-		if (date('m') == date('m', strtotime($first_quarter))) 
-		{
-			$date_quarter = date('Y').'-'.date('m-d', strtotime($first_quarter));
+					$log_data = array(
+						'action' => 'Quarterly earnings',
+						'user_agent' => 'Mangjuam',
+						'platform' => 'Mangjuam',
+						'brgy_account_id' => $row->registered_brgy_id, //$this->session->brgy_account_id, always same no.
+						'user_type' => 'Mangjuam'
+					);
+					$this->lm->log($log_data);
+
+					$bmr_data_arr = array();
+
+					foreach ($to_be_collected_earnings->result() as $bmr_row) 
+					{
+						$bmr_data_arr[] = array(
+							'borrower_monthly_repayment_id' => $bmr_row->borrower_monthly_repayment_id,
+							'is_commission_counted' => 1,
+						);
+					}
+					//UPDATE BORROWER MONTGLY REPAYMENTS
+					$this->bmrm->update_batch_bmr($bmr_data_arr);
+				}
+			}
 		}
-		elseif (date('m') == date('m', strtotime($second_quarter)))
-		{
-			
-		}
-		elseif (date('m') == date('m', strtotime($third_quarter)))
-		{
-			
-		}
-		elseif (date('m') == date('m', strtotime($fourth_quarter)))
-		{
-			
-		}
-		$loan_earnings = $this->bmrm->check_quarterly_earnings($date_quarter, $this->session->registered_brgy_id);
-		var_dump($loan_earnings->result());
 	}
 
 	public function has_internet()

@@ -11,6 +11,11 @@ class Borrower_monthly_repayments_model extends CI_Model {
 		return $result;
 	}
 
+	public function update_batch_bmr($bmr_data_arr)
+	{
+		$this->db->update_batch($this->table, $bmr_data_arr, 'borrower_monthly_repayment_id');
+	}
+
 	public function get_my_monthly_repayments($loan_repayment_data)
 	{
 		$result = $this->db->get_where($this->table,$loan_repayment_data);
@@ -64,6 +69,19 @@ class Borrower_monthly_repayments_model extends CI_Model {
 	{
 		$query = "
 		SELECT ((SUM(amount_paid) - SUM(monthly_loan_repayment) + SUM(penalty_paid)) - SUM(rebate)) AS loan_earnings, TIMESTAMPDIFF(DAY,CURDATE(),'$date_quarter') AS end_quarter
+		FROM borrower_monthly_repayments
+		WHERE amount_paid > monthly_loan_repayment
+		AND is_commission_counted = 0
+		AND registered_brgy_id = $registered_brgy_id
+		AND TIMESTAMPDIFF(DAY,CURDATE(),'$date_quarter') < 1";
+		$result = $this->db->query($query);
+		return $result;
+	}
+
+	public function check_quarterly_to_be_collected($date_quarter, $registered_brgy_id)
+	{
+		$query = "
+		SELECT borrower_monthly_repayment_id
 		FROM borrower_monthly_repayments
 		WHERE amount_paid > monthly_loan_repayment
 		AND is_commission_counted = 0
