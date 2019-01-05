@@ -90,4 +90,27 @@ class Borrower_monthly_repayments_model extends CI_Model {
 		$result = $this->db->query($query);
 		return $result;
 	}
+
+	public function monthly_earnings($registered_brgy_id)
+	{
+		$query = "
+		SELECT registered_brgy_id, ((SUM(amount_paid) - SUM(monthly_loan_repayment) + SUM(penalty_paid)) - SUM(rebate)) AS monthly_earnings, 
+		CONCAT(DATE_FORMAT(date_updated, '%M'),',',YEAR(date_updated)) AS 'date'
+		FROM borrower_monthly_repayments
+		WHERE registered_brgy_id = $registered_brgy_id
+		GROUP BY CONCAT(MONTH(date_updated),'-',YEAR(date_updated))";
+		$result = $this->db->query($query);
+		return $result;
+	}
+
+	public function all_monthly_earnings()
+	{
+		$query = "
+		SELECT registered_brgy_id, ((SUM(amount_paid) - SUM(monthly_loan_repayment) + SUM(penalty_paid)) - SUM(rebate)) AS monthly_earnings, 
+		CONCAT(DATE_FORMAT(date_updated, '%M'),',',YEAR(date_updated)) AS 'date'
+		FROM borrower_monthly_repayments
+		GROUP BY CONCAT(MONTH(date_updated),'-',YEAR(date_updated))";
+		$result = $this->db->query($query);
+		return $result;
+	}
 }

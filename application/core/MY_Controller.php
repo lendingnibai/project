@@ -289,9 +289,6 @@ class MY_Controller	extends CI_Controller {
 
 	public function check_quarterly_earnings()
 	{	
-		// $quarter_data = array(
-		// 	'registered_brgy_id' => $this->session->registered_brgy_id
-		// );
 		$get_quarters = $this->byqm->get_this_quarters();
 		foreach ($get_quarters->result() as $row) 
 		{
@@ -362,6 +359,16 @@ class MY_Controller	extends CI_Controller {
 				}
 			}
 		}
+	}
+
+	public function brgy_monthly_earnings()
+	{
+		return $this->bmrm->monthly_earnings($this->session->registered_brgy_id);
+	}
+
+	public function all_brgy_monthly_earnings()
+	{
+		return $this->bmrm->all_monthly_earnings();
 	}
 
 	public function has_internet()

@@ -107,7 +107,19 @@ class Admin extends MY_Controller {
 
 	public function index()
 	{	
-
+		//QUARTERLY CHECKER
+		$this->check_quarterly_earnings();
+		//IF THERE'S LOAN TERM ENDED UPDATE THE STATUS
+		$this->__check_loan_end_term();
+		//IF THERE'S INVESTMENT TERM ENDED ADD TO WALLET BALANCE, UPDATE THE STATUS AND NOTIFY THE USERS
+		$this->__check_investment_end_term();
+		//IF THERE'S MONTHLY RETURN TERM ENDED ADD TO WALLET BALANCE, UPDATE THE STATUS/INDICATOR AND NOTIFY THE USERS
+		$this->__check_monthly_return();
+		//IF THERE'S MONTHLY REPAYMENT NAHUMAN ANG DUE DATE WALA PA KABAYAD THEN SET UG PENALTY
+		$this->__check_monthly_repayment();//LOCATE IN MY_CONTROLLER
+		//NOTIFY THE BORROWER IF DUOL NA ANG DUE DATE SA IYANG AMORTAZATION
+		$this->__notify_borrower_due_date();//LOCATE IN MY_CONTROLLER
+		
 		$data['active_dashboard'] = 'active';//for navbar activate
 		$data['title'] = 'Dashboard';
 		$data['admin_dashboard'] = 'admin_dashboard';//for js indicator

@@ -64,4 +64,11 @@ class Loans_model extends CI_Model {
 		//AND l.registered_brgy_id = ".$this->session->registered_brgy_id."
 	}
 
+	public function get_borrower_loans_limit($borrower_id)
+	{
+		$this->db->order_by('loan_id', 'DESC');
+		$result = $this->db->get_where($this->table, array('borrower_id' => $borrower_id), 5, 0);
+		return $result;
+	}
+
 }

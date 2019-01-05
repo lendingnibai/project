@@ -312,9 +312,9 @@ class Barangay extends MY_Controller {
 
 	public function index()
 	{	
-		$this->check_quarterly_earnings();
-		die();
 		$this->__is_not_completed();
+		//QUARTERLY CHECKER
+		$this->check_quarterly_earnings();
 		//IF THERE'S LOAN TERM ENDED UPDATE THE STATUS
 		$this->__check_loan_end_term();
 		//IF THERE'S INVESTMENT TERM ENDED ADD TO WALLET BALANCE, UPDATE THE STATUS AND NOTIFY THE USERS

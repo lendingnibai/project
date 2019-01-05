@@ -19,6 +19,7 @@ class Borrower extends MY_Controller {
 		$this->load->model('Loan_applications_model', 'lam');
 		$this->load->model('Loan_requirements_model', 'lrm');
 		$this->load->model('Borrower_monthly_repayments_model', 'bmrm');
+		$this->load->model('Borrower_transactions_model', 'btm');
 	}
 
 	public function __get_this_user_details()//details sa user
@@ -63,6 +64,8 @@ class Borrower extends MY_Controller {
 	{
 		//check if incomplete then pass to incomplete method
 		$this->__is_not_completed();
+		//QUARTERLY CHECKER
+		$this->check_quarterly_earnings();
 		//IF THERE'S LOAN TERM ENDED UPDATE THE STATUS
 		$this->__check_loan_end_term();
 		//IF THERE'S INVESTMENT TERM ENDED ADD TO WALLET BALANCE, UPDATE THE STATUS AND NOTIFY THE USERS
@@ -80,6 +83,9 @@ class Borrower extends MY_Controller {
 		$data['dashboard'] = 'active';
 
 		$data['user_details'] = $this->__get_this_user_details();
+
+		$data['transactions_limit'] = $this->btm->get_borrower_transactions_limit($this->session->borrower_id);
+		$data['loans_limit'] = $this->loans->get_borrower_loans_limit($this->session->borrower_id);
 
 		$this->load->view('templates/borrower_header', $data);
 		$this->load->view('templates/borrowernav');
