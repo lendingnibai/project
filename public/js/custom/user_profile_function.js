@@ -1,27 +1,4 @@
-// user profile
-  $(document).ready(function(){
-      $('#updateButton').click(function(){
-          $('#profileSection').addClass('d-none');
-          $('#updateButton').addClass('d-none');
-
-          $('#cancelButton').removeClass('d-none');
-          $('#formSection').removeClass('d-none');
-      });
-
-      $('#cancelButton').click(function(){
-          $('#profileSection').removeClass('d-none');
-          $('#updateButton').removeClass('d-none');
-
-
-          $('#cancelButton').addClass('d-none');
-          $('#profileSection').addClass('pulse');
-          $('#formSection').addClass('d-none');
-          
-      });
-  });
-
-
- $(document).ready(function(){
+$(document).ready(function(){
       // photo preview
 
   $('#buttonProfilePic').on('click', function() {

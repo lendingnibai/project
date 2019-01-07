@@ -40,6 +40,7 @@ elseif (isset($borrower_loan)) {
 elseif (isset($user_profile)) {
    //<!-- for user profile -->
   echo '<script type="text/javascript" src="'.base_url().'public/js/custom/user_profile_function.js"></script>';
+  echo '<script type="text/javascript" src="'.base_url().'public/js/custom/user_incomplete_function.js"></script>';
 }
 elseif (isset($user_incomplete)) {
   //<!-- for user incomplete -->

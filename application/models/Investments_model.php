@@ -19,9 +19,9 @@ class Investments_model extends CI_Model {
 		return $result;
 	}
 
-	public function my_investment($lender_id)
+	public function my_investment($investment_data)
 	{
-		$result = $this->db->get_where($this->table, array('lender_id' => $lender_id, 'status' => 1));
+		$result = $this->db->get_where($this->table, $investment_data);
 		return $result;
 	}
 

@@ -37,6 +37,12 @@
     evt.preventDefault();
     let url = $(this).attr('action');
     let update_user_profile_form = new FormData(this);
+    let link_back = $('#link_back').val();
+
+    if (link_back == '') 
+    {
+      link_back = 'lender/incomplete';
+    }
 
     $('input').removeClass('border-bottom border-danger');
 
@@ -107,7 +113,7 @@
             if (result.code == 1) 
             {
                 alert(result.message);
-                window.location.href  = base_url + 'lender/incomplete';
+                window.location.href  = base_url + link_back;
             }
             else
             {

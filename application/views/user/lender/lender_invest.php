@@ -31,8 +31,8 @@ body.modal-open {
                   <div class="col-4 m-auto d-none d-md-block">
                     <span class="float-right" style="margin-top: -10%">Select Barangay <small class="red-text">*</small></span>
                   </div>
-                  <div class="col form-group">
-                    <select class="form-control barangaySelect" id="barangay_for_other" name="barangay_for_other">
+                  <div class="col">
+                    <select class="mdb-select md-form mt-0 barangaySelect" id="barangay_for_other" name="barangay_for_other">
                       <option value="" selected disabled>Where do you wan to invest</option>
                       <?php
                       $seq = 1;
@@ -59,9 +59,9 @@ body.modal-open {
                 <div class="col-4 m-auto d-none d-md-block">
                   <span class="float-right" style="margin-top: -10%">Terms <small class="red-text">*</small></span>
                 </div>
-                <div class="col form-group">
+                <div class="col">
                   <!-- yearTermsId -->
-                  <select class="form-control year_terms" id="invest_term" name="invest_term">
+                  <select class="mdb-select md-form mt-0 year_terms" id="invest_term" name="invest_term">
                     <option value="" selected disabled>Select</option>
                     <?php
                       foreach ($get_this_yearly_terms->result() as $row ) 
@@ -104,8 +104,8 @@ body.modal-open {
                 <div class="col-4 m-auto d-none d-md-block">
                   <span class="float-right" style="margin-top: -10%">Payment Options <small class="red-text">*</small></span>
                 </div>
-                <div class="col form-group">
-                  <select class="form-control payment_options" id="payment_options" name="payment_options">
+                <div class="col">
+                  <select class="mdb-select md-form mt-0 payment_options" id="payment_options" name="payment_options">
                     <option value="" selected disabled>Select</option>
                     <option value="Pickup (House)">Pickup (Home)</option>
                     <option value="Barangay">Barangay</option>
@@ -152,8 +152,8 @@ body.modal-open {
                   <div class="col-4 m-auto d-none d-md-block">
                     <span class="float-right" style="margin-top: -10%">Source of Income <small class="red-text">*</small></span>
                   </div>
-                  <div class="col form-group">
-                    <select class="form-control sourceOfIncome" name="source_of_income">
+                  <div class="col">
+                    <select class="mdb-select md-form mt-0 sourceOfIncome" name="source_of_income">
                       <option selected disabled>Select</option>
                       <option value="Business">Business</option>
                       <option value="Self Employed">Self Employed</option>

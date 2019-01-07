@@ -1,18 +1,21 @@
-
 // Animations initialization
 new WOW().init();
 
-$(document).ready(function () {
+// Data Picker Initialization
+//$('.datepicker').pickadate();
 
-//Data table Initialization
+//datatables
+$(document).ready(function () {
   $('#dtBasicExample').DataTable();
   $('.dataTables_length').addClass('bs-select');
 
   // Tooltips Initialization
-    $(function () {
-      $('[data-toggle="tooltip"]').tooltip()
-    })
-});
+  $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+  })
 
+// Material Select Initialization
+    $('.mdb-select').material_select();
+});
 
 

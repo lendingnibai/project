@@ -74,10 +74,9 @@
                 <div class="col-4 m-auto d-none d-md-block">
                   <span class="float-right" style="margin-top: -10%">Gender <small class="red-text">*</small></span>
                 </div>
-                <div class="col form-group">
+                <div class="col">
                   <?php
-                  $male = '';
-                  $female = '';
+                  $male = $female = '';
                   if (strtolower($gender) == 'male') 
                   {
                     $male = 'selected';
@@ -108,7 +107,7 @@
                 <div class="col-4 m-auto d-none d-md-block">
                   <span class="float-right" style="margin-top: -10%">Civil Status <small class="red-text">*</small></span>
                 </div>
-                <div class="col form-group">
+                <div class="col">
                   <?php
                   $single = $married = $separated = $widowed = '';
                   if (strtolower($civil_status) == 'single') 
@@ -166,6 +165,7 @@
                       ?>
                       <button type="button" id="buttonGovId" class="btn default-color btn-sm m-0 w-100 float-left">Upload</button>
                       <input type="file" name="gov_id" id="gov_id" accept='image/*' class="form-control d-none">
+                      <input type="hidden" name="link_back" id="link_back" value="" class="form-control d-none">
                     </div>
                     <div class="col m-auto">
                       <a class="grey-text <?php echo $invisible?>" id="file2">1 file selected</a>

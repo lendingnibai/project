@@ -51,7 +51,6 @@ class Borrower extends MY_Controller {
 				$data['oor'] = $row->oor;
 				$data['gov_id'] = $row->gov_id;
 				$data['photo'] = $row->photo;
-
 				$data['email'] = $row->email;
 				$data['username'] = $row->username;
 			}
@@ -77,12 +76,19 @@ class Borrower extends MY_Controller {
 		//NOTIFY THE BORROWER IF DUOL NA ANG DUE DATE SA IYANG AMORTAZATION
 		$this->__notify_borrower_due_date();//LOCATE IN MY_CONTROLLER
 
-		//check if incomplete then pass to incomplete method
-		$data['borrower_dashboard'] = 'borrower_dashboard'; //for jquery porpuses
+		//CHECK IF INCOMPLETE THEN PASS TO INCOMPLETE METHOD
+		$data['borrower_dashboard'] = 'borrower_dashboard'; // FOR JQUERY PORPUSES
 		$data['title'] = 'Dashboard | MangJuam';
 		$data['dashboard'] = 'active';
 
 		$data['user_details'] = $this->__get_this_user_details();
+
+		//$data['my_loan'] = $this->loans->get_this_loan($loan_data);
+		$loan_repayment_data = array(
+			'reference_code' => $this->input->get('ref'),
+			'borrower_id' => $this->session->borrower_id
+		);
+		$data['monthly_repayments'] = $this->bmrm->get_my_monthly_repayments($loan_repayment_data);
 
 		$data['transactions_limit'] = $this->btm->get_borrower_transactions_limit($this->session->borrower_id);
 		$data['loans_limit'] = $this->loans->get_borrower_loans_limit($this->session->borrower_id);
@@ -1029,6 +1035,21 @@ class Borrower extends MY_Controller {
 		$this->load->view('templates/borrower_header', $data);
 		$this->load->view('templates/borrowernav');
 		$this->load->view('user/profile');
+		$this->load->view('templates/borrower_footer');
+	}
+
+	public function update_profile()
+	{
+		$this->__is_not_completed();
+
+		$data['user_profile'] = 'b_profile';//JQUERY INDICATOR
+		$data['title'] = 'Update Profile | MangJuam';
+
+		$data['user_details'] = $this->__get_this_user_details();
+
+		$this->load->view('templates/borrower_header', $data);
+		$this->load->view('templates/borrowernav');
+		$this->load->view('user/update_profile');
 		$this->load->view('templates/borrower_footer');
 	}
 

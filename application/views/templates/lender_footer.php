@@ -17,9 +17,9 @@
 <!-- Bootstrap tooltips -->
 <script type="text/javascript" src="<?php echo base_url()?>public/js/popper.min.js"></script>
 <!-- Bootstrap core JavaScript -->
-<script type="text/javascript" src="<?php echo base_url()?>public/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url()?>public/js/admin_bootstrap.min.js"></script>
 <!-- MDB core JavaScript -->
-<script type="text/javascript" src="<?php echo base_url()?>public/js/mdb.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url()?>public/js/admin_mdb.min.js"></script>
 
 <script type="text/javascript" src="<?php echo base_url()?>public/js/addons/datatables.min.js"></script>
 <!-- common functions -->
@@ -40,6 +40,7 @@ elseif (isset($lender_invest)) {
 elseif (isset($user_profile)) {
    //<!-- for user profile -->
   echo '<script type="text/javascript" src="'.base_url().'public/js/custom/user_profile_function.js"></script>';
+  echo '<script type="text/javascript" src="'.base_url().'public/js/custom/user_incomplete_function.js"></script>';
 }
 elseif (isset($user_incomplete)) {
   //<!-- for user incomplete -->

@@ -55,14 +55,11 @@ class Update_main_user extends MY_Controller {
         elseif (!$oor) {
             return 'Please select Ownership of residence';
         }
-        
     }
 
     public function update_profile()
     {
-
         $code_number = 0;
-
         $user_details_gov_id_date_updated = $this->udm->get_this_date_updated($this->session->user_account_id);
 
         $gov_id_trapping = null;
@@ -75,6 +72,8 @@ class Update_main_user extends MY_Controller {
                 $gov_id_path = $row->gov_id;
             }
         }
+
+        $for_approval_indicator = $this->input->post('for_approval_indicator');//VALUE 1 KUNF NAG UPDATE SILA SA IALNG PROFILE SA NAKAGAMIT NA
 
         $first_name = $this->input->post('first_name');
         $middle_name = $this->input->post('middle_name');//not required
@@ -151,6 +150,14 @@ class Update_main_user extends MY_Controller {
                     $for_approval = 1;
                     $is_completed = 0;
                     $reason_message = 'Waiting for approval.';//set to default message 
+
+                    //PARA NI SA UPDATED
+                    if ($for_approval_indicator == 1) 
+                    {
+                        $for_approval = 0;
+                        $is_completed = 1;
+                        $reason_message = '';
+                    }
                 }
 
                 if (strtoupper($gender) == 'MALE') 

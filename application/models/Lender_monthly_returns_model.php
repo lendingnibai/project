@@ -33,7 +33,31 @@ class Lender_monthly_returns_model extends CI_Model {
 
 	public function get_my_monthly_returns($investment_return_data)
 	{
-		$result = $this->db->get_where($this->table,$investment_return_data);
+		$result = $this->db->get_where($this->table, $investment_return_data);
+		return $result;
+	}
+
+	public function my_monthly_returns_group_by($lender_id, $month_of)
+	{
+		$query = "
+		SELECT *
+		FROM lender_monthly_returns
+		WHERE lender_id = $lender_id
+		AND is_returned = 0
+		AND MONTH(date_return) = $month_of
+		GROUP BY reference_code";
+		$result = $this->db->query($query);
+		return $result;
+	}
+
+	public function total_interest_earned($lender_id)
+	{
+		$query ="
+		SELECT SUM(monthly_return) as interest_earned
+		FROM lender_monthly_returns
+		WHERE is_returned = 1
+		AND lender_id = $lender_id";
+		$result = $this->db->query($query);
 		return $result;
 	}
 	

@@ -11,7 +11,7 @@
     <!-- Bootstrap core CSS -->
     <link href="<?php echo base_url()?>public/css/bootstrap.min.css" rel="stylesheet">
     <!-- Material Design Bootstrap -->
-    <link href="<?php echo base_url()?>public/css/mdb.min.css" rel="stylesheet">
+    <link href="<?php echo base_url()?>public/css/admin_mdb.min.css" rel="stylesheet">
 
     <link href="<?php echo base_url()?>public/css/addons/datatables.min.css" rel="stylesheet">
 

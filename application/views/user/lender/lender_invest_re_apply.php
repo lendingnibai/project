@@ -32,8 +32,8 @@ body.modal-open {
                   <div class="col-4 m-auto d-none d-md-block">
                     <span class="float-right" style="margin-top: -10%">Barangay <small class="red-text">*</small></span>
                   </div>
-                  <div class="col form-group">
-                    <select class="form-control barangaySelect" id="barangay_for_other" name="barangay_for_other">
+                  <div class="col">
+                    <select class="mdb-select md-form mt-0 barangaySelect" id="barangay_for_other" name="barangay_for_other">
                       <?php
                       $seq = 1;
                       foreach ($registered_brgy->result() as $row) 
@@ -61,8 +61,8 @@ body.modal-open {
                 <div class="col-4 m-auto d-none d-md-block">
                   <span class="float-right" style="margin-top: -10%">Terms <small class="red-text">*</small></span>
                 </div>
-                <div class="col form-group">
-                  <select class="form-control year_terms" id="invest_term" name="invest_term">
+                <div class="col">
+                  <select class="mdb-select md-form mt-0 year_terms" id="invest_term" name="invest_term">
                     <?php
 
                       foreach ($get_this_yearly_terms->result() as $row ) 
@@ -115,8 +115,8 @@ body.modal-open {
                 <div class="col-4 m-auto d-none d-md-block">
                   <span class="float-right" style="margin-top: -10%">Payment Options <small class="red-text">*</small></span>
                 </div>
-                <div class="col form-group">
-                  <select class="form-control payment_options" id="payment_options" name="payment_options">
+                <div class="col">
+                  <select class="mdb-select md-form mt-0 payment_options" id="payment_options" name="payment_options">
                     <?php
                     $home = $brgy = '';
                     if ($payment_options == 'Barangay') 
@@ -174,8 +174,8 @@ body.modal-open {
                   <div class="col-4 m-auto d-none d-md-block">
                     <span class="float-right" style="margin-top: -10%">Source of Income <small class="red-text">*</small></span>
                   </div>
-                  <div class="col form-group">
-                    <select class="form-control sourceOfIncome" name="source_of_income">
+                  <div class="col">
+                    <select class="mdb-select md-form mt-0 sourceOfIncome" name="source_of_income">
                       <?php
                       $B = $S = $E = '';
                       if ($source_of_income == 'Business') 

@@ -17,7 +17,7 @@
                      </div>
                      <p>AMOUNT LOAN</p>
                      <h4 >₱ 2,000.00</h4>
-                     <small>August 1, 2018. <a href="#" class="text-white float-right mt-1">View transactions</a></small>
+                     <small>August 1, 2018. <a href="<?php echo base_url('borrower/loanbook')?>" class="text-white float-right mt-1">View transactions</a></small>
                   </div>
                   <div class="progress md-progress" style="height: 10px">
                      <div class="progress-bar progress-bar-striped progress-bar-animated bg teal rounded-right" role="progressbar" style="width: 100%; height: 10px" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
@@ -39,7 +39,7 @@
                      </div>
                      <p>REPAYMENT (<?php echo strtoupper(date('F')) ;?>)</p>
                      <h4 >₱ 1,100.00</h4>
-                     <small>Due date <?php echo date('F');?> 31, 2018.</small>
+                     <small>Due date <?php echo date('F');?> 31, <?php echo date('Y')?></small>
                      <small>
                      <a href="#" class="white-text float-right mt-1 animated bounce">Pay early to get rebate</a>
                      </small>
@@ -63,7 +63,7 @@
                         <i class="fa fa-2x fa-calendar"></i>
                      </div>
                      <p>REMAINING MONTHS</p>
-                     <h4 >2 Months</h4>
+                     <h4>2 Months</h4>
                      <small>August - September</small>
                   </div>
                   <div class="progress md-progress" style="height: 10px">

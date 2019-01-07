@@ -98,13 +98,15 @@ class Lender extends MY_Controller {
 
 		$data['current_balance'] = $this->ltm->get_lender_current_balance($this->session->lender_id);
 
-		$investment_return_data = array(
-			'status' => 0,
+		$investment_data = array(
+			'status' => 1,
 			'lender_id' => $this->session->lender_id
 		);
-		$data['my_monthly_returns'] = $this->lmrm->get_my_monthly_returns($investment_return_data);
-
-		$data['my_investment'] = $this->im->my_investment($this->session->lender_id);
+		$data['my_investment'] = $this->im->my_investment($investment_data);
+		//TOTAL INTEREST EARNED
+		$data['interest_earned'] = $this->lmrm->total_interest_earned($this->session->lender_id);
+		//MONTHLY RETURNS GROUP BY
+		$data['monthly_returns'] = $this->lmrm->my_monthly_returns_group_by($this->session->lender_id, date('j'));
 
 		$data['transactions_limit'] = $this->ltm->get_lender_transactions_limit($this->session->lender_id);
 		$data['investments_limit'] = $this->im->get_lender_investments_limit($this->session->lender_id);
@@ -943,6 +945,23 @@ class Lender extends MY_Controller {
 		$this->load->view('templates/lender_header', $data);
 		$this->load->view('templates/lendernav');
 		$this->load->view('user/profile');
+		$this->load->view('templates/lender_footer');
+	}
+
+	public function update_profile()
+	{
+		$this->__is_not_completed();
+		$data['all_brgy'] = $this->rbm->get_all_brgy();
+		$data['member_request'] = $this->mrm->get_member_request();
+
+		$data['user_profile'] = 'l_profile';//JQUERY INDICATOR
+		$data['title'] = 'Update Profile | MangJuam';
+
+		$data['user_details'] = $this->__get_this_user_details();
+
+		$this->load->view('templates/lender_header', $data);
+		$this->load->view('templates/lendernav');
+		$this->load->view('user/update_profile');
 		$this->load->view('templates/lender_footer');
 	}
 
