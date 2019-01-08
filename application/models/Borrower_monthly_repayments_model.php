@@ -21,7 +21,7 @@ class Borrower_monthly_repayments_model extends CI_Model {
 		$result = $this->db->get_where($this->table,$loan_repayment_data);
 		return $result;
 	}
-
+	//outstanding_repayment
 	public function my_monthly_repayment_group_by($borrower_id, $month_of)
 	{
 		$query = "
@@ -123,6 +123,18 @@ class Borrower_monthly_repayments_model extends CI_Model {
 		CONCAT(DATE_FORMAT(date_updated, '%M'),',',YEAR(date_updated)) AS 'date'
 		FROM borrower_monthly_repayments
 		GROUP BY CONCAT(MONTH(date_updated),'-',YEAR(date_updated))";
+		$result = $this->db->query($query);
+		return $result;
+	}
+
+	public function monthly_outstanding_balance($borrower_id, $current_month)
+	{
+		$query = "
+		SELECT ((SUM(monthly_repayment) + SUM(penalty)) - SUM(amount_paid) + SUM(penalty_paid)) AS m_o_b
+		FROM borrower_monthly_repayments
+		WHERE is_fully_paid = 0
+		AND borrower_id = $borrower_id
+		AND (amount_paid > 0 OR MONTH(due_date) = $current_month OR is_passed_due_date = 1)";
 		$result = $this->db->query($query);
 		return $result;
 	}

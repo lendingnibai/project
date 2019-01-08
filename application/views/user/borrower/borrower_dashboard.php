@@ -101,7 +101,7 @@
                      <div class="pull-right">
                         <i class="fa fa-2x fa-balance-scale"></i>
                      </div>
-                     <p>OUTSTANDING BALANCE</p>
+                     <p>OUTSTANDING PRINCIPAL</p>
                      <h4>₱ 1,100.00</h4>
                      <small>Good</small>
                   </div>
