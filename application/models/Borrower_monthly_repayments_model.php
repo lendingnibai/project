@@ -22,6 +22,19 @@ class Borrower_monthly_repayments_model extends CI_Model {
 		return $result;
 	}
 
+	public function my_monthly_repayment_group_by($borrower_id, $month_of)
+	{
+		$query = "
+		SELECT *, (sum(monthly_repayment) + sum(penalty)) - (sum(amount_paid) + sum(penalty_paid)) as outstanding_repayment 
+		FROM borrower_monthly_repayments
+		WHERE borrower_id = $borrower_id
+		AND is_fully_paid = 0
+		AND MONTH(due_date) = $month_of
+		GROUP BY reference_code";
+		$result = $this->db->query($query);
+		return $result;
+	}
+
 	public function update_monthly_repayment($repayment_data, $borrower_monthly_repayment_id)
 	{
 		$this->db->where('borrower_monthly_repayment_id', $borrower_monthly_repayment_id);

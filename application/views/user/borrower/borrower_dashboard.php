@@ -16,14 +16,21 @@
                         <i class="fa fa-2x fa-money"></i>
                      </div>
                      <p>AMOUNT LOAN</p>
-                     <h4 >₱ 2,000.00</h4>
-                     <small>August 1, 2018. <a href="<?php echo base_url('borrower/loanbook')?>" class="text-white float-right mt-1">View transactions</a></small>
+                     <?php $total_loan = $count_loan = 0; ?>
+                     <?php if ($my_loan->num_rows() > 0){?>   
+                     <?php foreach ($my_loan->result() as $row){?>
+                     <?php $total_loan += $row->loan_amount; ?>
+                     <?php $count_loan++;?>
+                     <?php }?>
+                     <?php }?>
+                     <h4>₱ <?php echo number_format($total_loan,2) ?></h4>
+                     <small>Active (<?php echo $count_loan?>) <a href="<?php echo base_url('borrower/loanbook')?>" class="white-text float-right mt-1">View loans</a></small>
                   </div>
                   <div class="progress md-progress" style="height: 10px">
                      <div class="progress-bar progress-bar-striped progress-bar-animated bg teal rounded-right" role="progressbar" style="width: 100%; height: 10px" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                   </div>
                   <div class="card-body">
-                     <p class="text-dark">Interest rate 10%</p>
+                     
                   </div>
                </div>
                <!--/.Card teal accent-4-->
@@ -38,17 +45,27 @@
                         <i class="fa fa-2x fa-calendar-check-o"></i>
                      </div>
                      <p>REPAYMENT (<?php echo strtoupper(date('F')) ;?>)</p>
-                     <h4 >₱ 1,100.00</h4>
-                     <small>Due date <?php echo date('F');?> 31, <?php echo date('Y')?></small>
-                     <small>
-                     <a href="#" class="white-text float-right mt-1 animated bounce">Pay early to get rebate</a>
-                     </small>
+                     <?php $total_monthly_repayment = 0?>
+                     <?php $dates_due = ''?>
+                     <?php $ctr_monthly_repayments = $monthly_repayments->num_rows()?>
+                     <?php if ($ctr_monthly_repayments > 0){?>
+                     <?php foreach ($monthly_repayments->result() as $row){?>
+                     <?php
+                     if ($ctr_monthly_repayments == 1)
+                        $dates_due = ', '.date('j', strtotime($row->due_date));
+                     else
+                        $dates_due .= ', '.date('j', strtotime($row->due_date));
+                     ?>
+                     <?php $total_monthly_repayment += $row->monthly_repayment;}?>    
+                     <?php }?>
+                     <h4>₱ <?php echo number_format($total_monthly_repayment,2)?></h4>
+                     <small>As of <?php echo ucfirst(date('F')).' '.substr($dates_due, 2). ', '.date('Y')?></small>
                   </div>
                   <div class="progress md-progress" style="height: 10px">
                      <div class="progress-bar progress-bar-striped progress-bar-animated bg teal rounded-right" role="progressbar" style="width: 50%; height: 10px" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                   </div>
                   <div class="card-body">
-                     <p class="text-dark">Monthly amortization ₱ 1,100</p>
+                     
                   </div>
                </div>
                <!--/.Card teal accent-4-->
@@ -70,7 +87,7 @@
                      <div class="progress-bar progress-bar-striped progress-bar-animated bg teal rounded-right" role="progressbar" style="width: 100%; height: 10px" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                   </div>
                   <div class="card-body">
-                     <p class="text-dark">2 months term</p>
+                     
                   </div>
                </div>
                <!--/.Card teal accent-4-->
@@ -92,7 +109,7 @@
                      <div class="progress-bar progress-bar-striped progress-bar-animated bg teal rounded-right" role="progressbar" style="width: 100%; height: 10px" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                   </div>
                   <div class="card-body">
-                     <p class="text-dark">Accrued interest 7%</p>
+                     
                   </div>
                </div>
                <!--/.Card teal accent-4-->

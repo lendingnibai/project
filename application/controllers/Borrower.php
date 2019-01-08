@@ -83,13 +83,16 @@ class Borrower extends MY_Controller {
 
 		$data['user_details'] = $this->__get_this_user_details();
 
-		//$data['my_loan'] = $this->loans->get_this_loan($loan_data);
-		$loan_repayment_data = array(
-			'reference_code' => $this->input->get('ref'),
+		$loan_data = array(
+			'status !=' => 2,
 			'borrower_id' => $this->session->borrower_id
 		);
-		$data['monthly_repayments'] = $this->bmrm->get_my_monthly_repayments($loan_repayment_data);
 
+		$data['my_loan'] = $this->loans->get_this_loan($loan_data);
+		$data['oustanding_balance'] = $this->btm->get_borrower_outstanding_current_balance($this->session->borrower_id);
+		// var_dump($data['oustanding_balance']->result());
+		// die();
+		$data['monthly_repayments'] = $this->bmrm->my_monthly_repayment_group_by($this->session->borrower_id, date('m'));
 		$data['transactions_limit'] = $this->btm->get_borrower_transactions_limit($this->session->borrower_id);
 		$data['loans_limit'] = $this->loans->get_borrower_loans_limit($this->session->borrower_id);
 

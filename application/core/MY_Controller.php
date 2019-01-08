@@ -413,7 +413,7 @@ class MY_Controller	extends CI_Controller {
 		return $current_balance;
 	}
 
-	//LENDER CURRENT BALANCE
+	//BORROWER CURRENT OUTSTANDING BALANCE
 	public function get_borrower_outstanding_current_balance($borrower_id)
 	{
 		$get_outstanding_current_balance = $this->btm->get_borrower_outstanding_current_balance($borrower_id);//get the current balance first
