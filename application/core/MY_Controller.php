@@ -415,12 +415,8 @@ class MY_Controller	extends CI_Controller {
 	//BORROWER CURRENT OUTSTANDING BALANCE
 	public function get_borrower_outstanding_current_balance($borrower_id)
 	{
-		$outstanding_balance = 0.00;
-		//FROM TRANSACTIONS
 		$get_outstanding_current_balance = $this->btm->get_borrower_outstanding_current_balance($borrower_id);//get the current balance first
-		$mos_outstanding_balance = $this->bmrm->monthly_outstanding_balance($borrower_id, $current_month);
-
-		
+		$outstanding_balance = 0.00;
 		if ($get_outstanding_current_balance->num_rows() > 0) 
 		{
 			foreach ($get_outstanding_current_balance->result() as $row) 

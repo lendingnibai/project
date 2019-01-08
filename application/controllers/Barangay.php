@@ -923,14 +923,14 @@ class Barangay extends MY_Controller {
 					);
 					$this->transaction->insert_transaction($transaction_data);
 					//INSERT BORROWER TRANSACTIONS
-					$borrower_new_outstanding_balance = $this->get_borrower_outstanding_current_balance($borrower_id) + $loan_amount;
+					$borrower_new_outstanding_balance = $this->get_borrower_outstanding_current_balance($borrower_id) + ($loan_amount + $interest_repayment);
 					$borrower_transaction_data = array(
 						'borrower_id' => $borrower_id,
 						'loan_id' => $loan_id,
 						'reference_code' => $reference_code,
 						'from_brgy_id' => $this->session->registered_brgy_id,
-						'debit' => $loan_amount,
-						'type' => 'Loan',
+						'debit' => $loan_amount + $interest_repayment,
+						'type' => 'Loan Plus Interest',
 						'type_code' => 1,
 						'outstanding_balance' => $borrower_new_outstanding_balance
 					);

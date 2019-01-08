@@ -127,15 +127,29 @@ class Borrower_monthly_repayments_model extends CI_Model {
 		return $result;
 	}
 
-	public function monthly_outstanding_balance($borrower_id, $current_month)
+	public function borrower_savings($borrower_id)
 	{
 		$query = "
-		SELECT ((SUM(monthly_repayment) + SUM(penalty)) - SUM(amount_paid) + SUM(penalty_paid)) AS m_o_b
-		FROM borrower_monthly_repayments
-		WHERE is_fully_paid = 0
-		AND borrower_id = $borrower_id
-		AND (amount_paid > 0 OR MONTH(due_date) = $current_month OR is_passed_due_date = 1)";
+		SELECT loans.borrower_id, loans.loan_id, loans.reference_code,  IF( ISNULL( SUM( rebate ) ),0,SUM(rebate)) AS savings
+		FROM borrower_monthly_repayments AS bmr
+		INNER JOIN loans
+		ON bmr.loan_id = loans.loan_id
+		WHERE loans.is_ended = 1
+		AND loans.borrower_id = $borrower_id
+		AND loans.is_rebate_withdrawn = 0";
 		$result = $this->db->query($query);
 		return $result;
 	}
+
+	// public function monthly_outstanding_balance($borrower_id, $current_month)
+	// {
+	// 	$query = "
+	// 	SELECT ((SUM(monthly_repayment) + SUM(penalty)) - SUM(amount_paid) + SUM(penalty_paid)) AS m_o_b
+	// 	FROM borrower_monthly_repayments
+	// 	WHERE is_fully_paid = 0
+	// 	AND borrower_id = $borrower_id
+	// 	AND (amount_paid > 0 OR MONTH(due_date) = $current_month OR is_passed_due_date = 1)";
+	// 	$result = $this->db->query($query);
+	// 	return $result;
+	// }
 }

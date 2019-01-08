@@ -62,7 +62,7 @@
                      <small>As of <?php echo ucfirst(date('F')).' '.substr($dates_due, 2). ', '.date('Y')?></small>
                   </div>
                   <div class="progress md-progress" style="height: 10px">
-                     <div class="progress-bar progress-bar-striped progress-bar-animated bg teal rounded-right" role="progressbar" style="width: 50%; height: 10px" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                     <div class="progress-bar progress-bar-striped progress-bar-animated bg teal rounded-right" role="progressbar" style="width: 100%; height: 10px" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                   </div>
                   <div class="card-body">
                      
@@ -79,9 +79,15 @@
                      <div class="pull-right">
                         <i class="fa fa-2x fa-calendar"></i>
                      </div>
-                     <p>REMAINING MONTHS</p>
-                     <h4>2 Months</h4>
-                     <small>August - September</small>
+                     <p>TOTAL SAVINGS</p>
+                     <?php $total_savings = 0.00;?>
+                     <?php foreach ($savings->result() as $row) {?>
+                     <?php $total_savings += $row->savings?>
+                     <?php }?>
+                     <h4>₱ <?php echo number_format($total_savings,2) ?></h4>
+                     <small>As of <?php echo ucfirst(date('F')).' '.substr($dates_due, 2). ', '.date('Y')?>
+                        <a href="<?php echo base_url('borrower/savings')?>" class="white-text float-right mt-1">View savings</a>
+                     </small>
                   </div>
                   <div class="progress md-progress" style="height: 10px">
                      <div class="progress-bar progress-bar-striped progress-bar-animated bg teal rounded-right" role="progressbar" style="width: 100%; height: 10px" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
@@ -102,8 +108,10 @@
                         <i class="fa fa-2x fa-balance-scale"></i>
                      </div>
                      <p>OUTSTANDING PRINCIPAL</p>
-                     <h4>₱ 1,100.00</h4>
-                     <small>Good</small>
+                     <?php foreach ($outstanding_balance->result() as $row){?>
+                     <h4>₱ <?php echo (!$row->outstanding_balance) ? '0.00' : number_format($row->outstanding_balance,2); ?></h4>
+                     <?php }?>
+                     <small>Amount payable</small>
                   </div>
                   <div class="progress md-progress" style="height: 10px">
                      <div class="progress-bar progress-bar-striped progress-bar-animated bg teal rounded-right" role="progressbar" style="width: 100%; height: 10px" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
