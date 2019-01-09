@@ -923,17 +923,20 @@ class Borrower extends MY_Controller {
 		{
 			$data['borrower_all'] = 'all';//for jquery porpuses
 			$data['all'] = 'active';
+			$data['borrower_transactions'] = $this->btm->get_borrower_transactions($this->session->borrower_id);
 		}
 		elseif ($type == 'payments') 
 		{
 			$data['borrower_payments'] = 'payments';//for jquery porpuses
 			$data['payments'] = 'active';
+			$data['my_payments'] = $this->btm->get_borrower_payments($this->session->borrower_id);
 
 		}
 		elseif ($type == 'loan_received') 
 		{
 			$data['borrower_loan_received'] = 'loan_received';//for jquery porpuses
 			$data['loan_received'] = 'active';
+			$data['my_loans'] = $this->btm->get_borrower_loans($this->session->borrower_id);
 		}
 
 		$data['title'] = ucwords(str_replace('_', ' ', $type)).' transactions | MangJuam';

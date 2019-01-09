@@ -145,10 +145,10 @@ $('document').ready(function(){
 		        else if ($('#ref_code').val() == '') {
 		        	alert('Opps something went wrong!');
 		        }
-		        else if ($('#payment_amount').val() > total_outstanding) {
-		        	alert('Payment amount must be less than or equal to total outstanding of monthly repayment');
-		        	$('#password').val('');
-		        }
+		        // else if ($('#payment_amount').val() > total_outstanding) {
+		        // 	alert('Payment amount must be less than or equal to total outstanding of monthly repayment');
+		        // 	$('#password').val('');
+		        // }
 		        else
 		        {
 		        	$.ajax({

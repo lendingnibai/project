@@ -26,6 +26,18 @@ class Borrower_transactions_model extends CI_Model {
 		return $result;
 	}
 
+	public function get_borrower_payments($borrower_id)
+	{
+		$result = $this->db->get_where($this->table, array('borrower_id' => $borrower_id, 'type_code' => 2));
+		return $result;
+	}
+
+	public function get_borrower_loans($borrower_id)
+	{
+		$result = $this->db->get_where($this->table, array('borrower_id' => $borrower_id, 'type_code' => 1));
+		return $result;
+	}
+
 	public function get_borrower_transactions_limit($borrower_id)
 	{
 		$this->db->order_by('borrower_transaction_id', 'DESC');
