@@ -88,7 +88,7 @@ class Borrower extends MY_Controller {
 			'borrower_id' => $this->session->borrower_id
 		);
 		$data['my_loan'] = $this->loans->get_this_loan($loan_data);
-		$data['savings'] = $this->bmrm->borrower_savings(3);
+		$data['savings'] = $this->bmrm->borrower_savings($this->session->borrower_id);
 
 		$data['outstanding_balance'] = $this->btm->get_borrower_outstanding_current_balance($this->session->borrower_id);
 		$data['monthly_repayments'] = $this->bmrm->my_monthly_repayment_group_by($this->session->borrower_id, date('m'));

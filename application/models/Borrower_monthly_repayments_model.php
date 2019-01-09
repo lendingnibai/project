@@ -134,7 +134,7 @@ class Borrower_monthly_repayments_model extends CI_Model {
 		FROM borrower_monthly_repayments AS bmr
 		INNER JOIN loans
 		ON bmr.loan_id = loans.loan_id
-		WHERE loans.is_ended = 1
+		WHERE (loans.is_ended = 1 OR loans.status = 2)
 		AND loans.borrower_id = $borrower_id
 		AND loans.is_rebate_withdrawn = 0";
 		$result = $this->db->query($query);

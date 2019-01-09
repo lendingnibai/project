@@ -86,7 +86,7 @@
                                }
                                elseif ($row->status == 2) 
                                {
-                                 echo 'Complete';
+                                 echo 'Completed';
                                }
                                elseif ($row->status == 3) 
                                {

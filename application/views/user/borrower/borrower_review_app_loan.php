@@ -238,7 +238,7 @@
                               <th>Status</th>
                               <th>Full Details</th>
                               <th>Re-apply</th>
-                              <th>Note</th>
+                              <th>Memo</th>
                            </tr>
                         </tfoot>
                      </table>

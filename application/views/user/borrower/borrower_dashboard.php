@@ -1,5 +1,5 @@
 <main class="mainlayout" style="margin-top: 6%">
-   <div class="container-fluid">
+   <div class="container-fluid" style="min-height: 600px">
       <!-- Intro -->  
       <section class="section completeprofile-section my-5">
          <ol class="breadcrumb">
@@ -30,7 +30,6 @@
                      <div class="progress-bar progress-bar-striped progress-bar-animated bg teal rounded-right" role="progressbar" style="width: 100%; height: 10px" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                   </div>
                   <div class="card-body">
-                     
                   </div>
                </div>
                <!--/.Card teal accent-4-->
@@ -51,11 +50,11 @@
                      <?php if ($ctr_monthly_repayments > 0){?>
                      <?php foreach ($monthly_repayments->result() as $row){?>
                      <?php
-                     if ($ctr_monthly_repayments == 1)
-                        $dates_due = ', '.date('j', strtotime($row->due_date));
-                     else
-                        $dates_due .= ', '.date('j', strtotime($row->due_date));
-                     ?>
+                        if ($ctr_monthly_repayments == 1)
+                           $dates_due = ', '.date('j', strtotime($row->due_date));
+                        else
+                           $dates_due .= ', '.date('j', strtotime($row->due_date));
+                        ?>
                      <?php $total_monthly_repayment += $row->monthly_repayment;}?>    
                      <?php }?>
                      <h4>₱ <?php echo number_format($total_monthly_repayment,2)?></h4>
@@ -65,7 +64,6 @@
                      <div class="progress-bar progress-bar-striped progress-bar-animated bg teal rounded-right" role="progressbar" style="width: 100%; height: 10px" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                   </div>
                   <div class="card-body">
-                     
                   </div>
                </div>
                <!--/.Card teal accent-4-->
@@ -86,14 +84,13 @@
                      <?php }?>
                      <h4>₱ <?php echo number_format($total_savings,2) ?></h4>
                      <small>As of <?php echo ucfirst(date('F')).' '.substr($dates_due, 2). ', '.date('Y')?>
-                        <a href="<?php echo base_url('borrower/savings')?>" class="white-text float-right mt-1">View savings</a>
+                     <a href="<?php echo base_url('borrower/savings')?>" class="white-text float-right mt-1">View savings</a>
                      </small>
                   </div>
                   <div class="progress md-progress" style="height: 10px">
                      <div class="progress-bar progress-bar-striped progress-bar-animated bg teal rounded-right" role="progressbar" style="width: 100%; height: 10px" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                   </div>
                   <div class="card-body">
-                     
                   </div>
                </div>
                <!--/.Card teal accent-4-->
@@ -117,7 +114,6 @@
                      <div class="progress-bar progress-bar-striped progress-bar-animated bg teal rounded-right" role="progressbar" style="width: 100%; height: 10px" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                   </div>
                   <div class="card-body">
-                     
                   </div>
                </div>
                <!--/.Card teal accent-4-->
