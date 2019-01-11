@@ -71,7 +71,7 @@
         <!--Mask with wave-->
         <div class="view overlay m-auto">
 
-            <img src="<?php echo base_url()?>public/img/anonymous/male.jpg" class="img-fluid border border-default m-auto rounded rounded-circle" alt="Sample image with waves effect." style="width: 150px; height: 150px">
+            <img src="<?php echo base_url($user_details['photo'])?>" class="img-fluid border border-default m-auto rounded rounded-circle" alt="Sample image with waves effect." style="width: 150px; height: 150px">
             <a>
                 <div class="mask waves-effect waves-light rgba-white-slight"></div>
             </a>

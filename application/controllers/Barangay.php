@@ -709,7 +709,7 @@ class Barangay extends MY_Controller {
 		$this->load->view('templates/barangay_footer');
 	}
 
-	public function __borrower_monthly_repayments($borrower_id, $loan_id, $loan_application_id, $reference_code, $monthly_repayment, $loan_term, $interest_repayment, $loan_amount)
+	public function __borrower_monthly_repayments($borrower_id, $loan_id, $loan_application_id, $reference_code, $monthly_repayment, $loan_term, $interest_repayment, $loan_amount, $subra)
 	{
 		$monthly_interest = $interest_repayment / $loan_term;//get the monthly interest of the brgy from loan
 		$monthly_loan_repayment = $loan_amount / $loan_term;
@@ -785,8 +785,10 @@ class Barangay extends MY_Controller {
 				'reference_code' => $reference_code,
 				'monthly_loan_repayment' => $monthly_loan_repayment,//BINUWAN NGA BAYRANAN SA LOAN
 				'monthly_interest' => $monthly_interest,//BINUWAN NGA BAYRANAN SA INTEREST
-				'monthly_repayment' => $monthly_repayment
+				'monthly_repayment' => $monthly_repayment + $subra
 			);
+
+			$subra = 0;
 		}
 		$insert_monthly_repayments = $this->bmrm->insert_monthly_repayments($monthly_repayments_data);
 		return $insert_monthly_repayments;
@@ -867,6 +869,7 @@ class Barangay extends MY_Controller {
 			$interest_repayment = $computed['interest_repayment'];
 			$monthly_repayment = $computed['monthly_repayment'];
 			$total_repayment = $computed['total_repayment'];
+			$subra = $computed['subra'];
 
 			//UPDATE LOAN APPLICATION
 			$loan_app_data = array(
@@ -908,7 +911,7 @@ class Barangay extends MY_Controller {
 				if ($loan_id > 0) 
 				{
 					//INSERT TO BORROWER MONTHLY REPAYMENTS TABLE
-					$borrower_monthly_repayment = $this->__borrower_monthly_repayments($borrower_id, $loan_id, $loan_application_id ,$reference_code, $monthly_repayment, $loan_term, $interest_repayment, $loan_amount);
+					$borrower_monthly_repayment = $this->__borrower_monthly_repayments($borrower_id, $loan_id, $loan_application_id ,$reference_code, $monthly_repayment, $loan_term, $interest_repayment, $loan_amount, $subra);
 
 					$new_balance = $this->brgy_current_balance() - $loan_amount;
 					//INSERT BRGY TRANSACTIONS
@@ -1638,16 +1641,18 @@ class Barangay extends MY_Controller {
         $total_repayment = $loan_amount + $total_interest;//TOTAL REPAYMENT CAPITAL + TOTAL OF MONTHLY REPAYMENT
         $monthly_repayment = ($loan_amount + $total_interest) / $month_terms; //MONTHLY REPAYMENT
         $interest_repayment = $total_interest;//TOTAL INTEREST
+        $new_monthly_repayment = round($monthly_repayment,2);
+        $subra = round($total_repayment - ($new_monthly_repayment * $month_terms),2);
 
         $return_results = array(
         	'interest_rate' => $interest_rate,
         	'interest_repayment' => $interest_repayment,
         	'monthly_repayment' => $monthly_repayment,
-        	'total_repayment' => $total_repayment
+        	'total_repayment' => $total_repayment,
+        	'subra' => $subra
         );
         return $return_results;//RETURN THE ALL RESULTS
 	}
-
 
 	//AJAX RETURN
 	public function get_investment_app_req_registered_brgy()

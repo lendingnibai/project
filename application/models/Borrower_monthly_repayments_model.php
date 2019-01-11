@@ -103,7 +103,7 @@ class Borrower_monthly_repayments_model extends CI_Model {
 		$result = $this->db->query($query);
 		return $result;
 	}
-
+	//BRGY MOS EARNINGS KUNG GANAHAN KAG ACCURATE I CONDITION ANG IS_FULLY_PAID  = 1
 	public function monthly_earnings($registered_brgy_id)
 	{
 		$query = "
@@ -111,7 +111,9 @@ class Borrower_monthly_repayments_model extends CI_Model {
 		CONCAT(DATE_FORMAT(date_updated, '%M'),',',YEAR(date_updated)) AS 'date'
 		FROM borrower_monthly_repayments
 		WHERE registered_brgy_id = $registered_brgy_id
-		GROUP BY CONCAT(MONTH(date_updated),'-',YEAR(date_updated))";
+		AND amount_paid > monthly_loan_repayment
+		GROUP BY CONCAT(DATE_FORMAT(date_updated, '%M'),',',YEAR(date_updated))
+		ORDER BY date_updated";
 		$result = $this->db->query($query);
 		return $result;
 	}
@@ -122,34 +124,38 @@ class Borrower_monthly_repayments_model extends CI_Model {
 		SELECT registered_brgy_id, ((SUM(amount_paid) - SUM(monthly_loan_repayment) + SUM(penalty_paid)) - SUM(rebate)) AS monthly_earnings, 
 		CONCAT(DATE_FORMAT(date_updated, '%M'),',',YEAR(date_updated)) AS 'date'
 		FROM borrower_monthly_repayments
-		GROUP BY CONCAT(MONTH(date_updated),'-',YEAR(date_updated))";
+		WHERE amount_paid > monthly_loan_repayment
+		GROUP BY CONCAT(DATE_FORMAT(date_updated, '%M'),',',YEAR(date_updated))
+		ORDER BY date_updated";
 		$result = $this->db->query($query);
 		return $result;
 	}
-
+	//FOR DASHBOARD DISPLAY
 	public function borrower_savings($borrower_id)
 	{
 		$query = "
-		SELECT loans.borrower_id, loans.loan_id, loans.reference_code,  IF( ISNULL( SUM( rebate ) ),0,SUM(rebate)) AS savings
+		SELECT loans.borrower_id, loans.loan_id, loans.loan_amount, loans.reference_code,  IF( ISNULL( SUM( rebate ) ),0,SUM(rebate)) AS savings, loans.status, loans.date_updated
 		FROM borrower_monthly_repayments AS bmr
 		INNER JOIN loans
 		ON bmr.loan_id = loans.loan_id
-		WHERE (loans.is_ended = 1 OR loans.status = 2)
-		AND loans.borrower_id = $borrower_id
-		AND loans.is_rebate_withdrawn = 0";
+		WHERE loans.status = 2
+		AND is_rebate_withdrawn = 0
+		AND loans.borrower_id = $borrower_id";
 		$result = $this->db->query($query);
 		return $result;
 	}
 
-	// public function monthly_outstanding_balance($borrower_id, $current_month)
-	// {
-	// 	$query = "
-	// 	SELECT ((SUM(monthly_repayment) + SUM(penalty)) - SUM(amount_paid) + SUM(penalty_paid)) AS m_o_b
-	// 	FROM borrower_monthly_repayments
-	// 	WHERE is_fully_paid = 0
-	// 	AND borrower_id = $borrower_id
-	// 	AND (amount_paid > 0 OR MONTH(due_date) = $current_month OR is_passed_due_date = 1)";
-	// 	$result = $this->db->query($query);
-	// 	return $result;
-	// }
+	//FOR LISTING DISPLAY
+	public function borrower_savings_list($borrower_id)
+	{
+		$query = "
+		SELECT loans.borrower_id, loans.loan_id, loans.loan_amount, loans.reference_code,  IF( ISNULL( SUM( rebate ) ),0,SUM(rebate)) AS savings, loans.status, loans.date_updated, loans.is_rebate_withdrawn, loans.rebate_to_withdrawn
+		FROM borrower_monthly_repayments AS bmr
+		INNER JOIN loans
+		ON bmr.loan_id = loans.loan_id
+		WHERE loans.borrower_id = $borrower_id";
+		$result = $this->db->query($query);
+		return $result;
+	}
+
 }

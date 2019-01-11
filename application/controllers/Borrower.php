@@ -89,7 +89,6 @@ class Borrower extends MY_Controller {
 		);
 		$data['my_loan'] = $this->loans->get_this_loan($loan_data);
 		$data['savings'] = $this->bmrm->borrower_savings($this->session->borrower_id);
-
 		$data['outstanding_balance'] = $this->btm->get_borrower_outstanding_current_balance($this->session->borrower_id);
 		$data['monthly_repayments'] = $this->bmrm->my_monthly_repayment_group_by($this->session->borrower_id, date('m'));
 		$data['transactions_limit'] = $this->btm->get_borrower_transactions_limit($this->session->borrower_id);
@@ -104,6 +103,24 @@ class Borrower extends MY_Controller {
 	public function dashboard()
 	{
 		$this->index();
+	}
+
+	public function savings_list()
+	{
+		$this->__is_not_completed();
+
+		//CHECK IF INCOMPLETE THEN PASS TO INCOMPLETE METHOD
+		$data['borrower_savings'] = 'borrower_savings'; // FOR JQUERY PORPUSES
+		$data['title'] = 'Savings List | MangJuam';
+		$data['savings'] = 'active';
+
+		$data['user_details'] = $this->__get_this_user_details();
+		$data['savings'] = $this->bmrm->borrower_savings_list($this->session->borrower_id);
+		$this->load->view('templates/borrower_header', $data);
+		$this->load->view('templates/borrowernav');
+		$this->load->view('user/borrower/borrower_savings');
+		$this->load->view('templates/borrower_footer');
+
 	}
 
 	public function get_brgy_interest_rates_loan()

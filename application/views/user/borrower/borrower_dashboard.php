@@ -80,11 +80,11 @@
                      <p>TOTAL SAVINGS</p>
                      <?php $total_savings = 0.00;?>
                      <?php foreach ($savings->result() as $row) {?>
-                     <?php $total_savings += $row->savings?>
+                     <?php $total_savings += $row->savings; ?>
                      <?php }?>
                      <h4>₱ <?php echo number_format($total_savings,2) ?></h4>
                      <small>As of <?php echo ucfirst(date('F')).' '.substr($dates_due, 2). ', '.date('Y')?>
-                     <a href="<?php echo base_url('borrower/savings')?>" class="white-text float-right mt-1">View savings</a>
+                     <a href="<?php echo base_url('borrower/savings_list')?>" class="white-text float-right mt-1 <?php echo ($total_savings > 0) ? '' : 'd-none'; ?>">View savings</a>
                      </small>
                   </div>
                   <div class="progress md-progress" style="height: 10px">
@@ -175,7 +175,7 @@
          </div>
          <!--Grid row-->
       </section>
-      <section class="section investment-section wow fadeIn">
+      <section class="section loan-section wow fadeIn">
          <div class="row">
             <!--Grid column-->
             <div class="col-12 mb-4">
@@ -226,7 +226,7 @@
                      </tbody>
                   </table>
                   <span class="px-2"><small> 
-                  <?php echo ($loans_limit->num_rows() > 0) ? 'Investments. <a href="'.base_url("borrower/loanbook").'">View all</a>' : ''; ?></small>
+                  <?php echo ($loans_limit->num_rows() > 0) ? 'Loans. <a href="'.base_url("borrower/loanbook").'">View all</a>' : ''; ?></small>
                   </span>
                </div>
                <!--/.Card teal accent-4-->

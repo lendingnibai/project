@@ -128,7 +128,7 @@
                           <td class="text-right"><?php echo number_format($row->credit,2) ?></td>
                           <td class="text-right"><?php echo number_format($row->debit,2) ?></td>
                           <td><?php echo $row->type ?></td>
-                          <td class="text-right">₱ <?php echo number_format($row->balance,2) ?></td>
+                          <td class="text-right"> <?php echo number_format($row->balance,2) ?></td>
                           <td><?php echo date('Y-m-d H:i:s', strtotime($row->date_created)) ?></td>
                         </tr>
                         <?php $seq--;}?>

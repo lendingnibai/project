@@ -359,7 +359,7 @@ class MY_Controller	extends CI_Controller {
 			}
 		}
 	}
-
+	//LIST OF MONTHLY EARNINGS BRGY
 	public function brgy_monthly_earnings()
 	{
 		return $this->bmrm->monthly_earnings($this->session->registered_brgy_id);

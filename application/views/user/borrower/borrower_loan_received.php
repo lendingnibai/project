@@ -19,7 +19,7 @@
                <div class="card table-responsive">
                   <h4 class="p-2 m-0 teal accent-4 text-center rounded-top text-white">Loan Received History</h4>
                   <div class="card-body">
-                     <table id="dtBasicExample" class="table table-sm table-bordered" cellspacing="0" width="100%">
+                     <table id="dtBasicExample" class="table table-sm table-bordered table-striped" cellspacing="0" width="100%">
                         <thead>
                            <tr>
                               <th class="th-sm" width="10%">Seq.

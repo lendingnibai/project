@@ -18,7 +18,7 @@
                <div class="card table-responsive">
                   <h4 class="p-2 m-0 teal accent-4 text-center rounded-top text-white">Transactions History</h4>
                   <div class="card-body">
-                     <table id="dtBasicExample" class="table table-sm table-bordered" cellspacing="0" width="100%">
+                     <table id="dtBasicExample" class="table table-sm table-bordered table-striped" cellspacing="0" width="100%">
                         <thead>
                            <tr>
                               <th class="th-sm" width="10%">Seq.
@@ -36,7 +36,7 @@
                               <th class="th-sm">Type
                                  <i class="fa fa-sort float-right" aria-hidden="true"></i>
                               </th>
-                              <th class="th-sm text-right">Balance
+                              <th class="th-sm text-right">Outstanding Balance
                                  <i class="ml-2 fa fa-sort float-right" aria-hidden="true"></i>
                               </th>
                               <th class="th-sm">Date & Time
@@ -67,7 +67,7 @@
                               <th class="text-right">Credit</th>
                               <th class="text-right">Dedit</th>
                               <th>Type</th>
-                              <th class="text-right">Balance</th>
+                              <th class="text-right">Outstanding Balance</th>
                               <th>Date & Time</th>
                            </tr>
                         </tfoot>
