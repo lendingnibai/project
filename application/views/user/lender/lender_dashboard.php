@@ -1,5 +1,5 @@
 <main class="mainlayout" style="margin-top: 6%">
-   <div class="container-fluid" style="min-height: 600px;">
+   <div class="container-fluid" style="min-height: 650px;">
       <!-- Intro -->  
       <ol class="breadcrumb">
          <li class="breadcrumb-item active">Dashboard <i class="fa fa-tachometer" aria-hidden="true"></i></li>
@@ -80,20 +80,30 @@
                      </div>
                      <p>MONTHLY RETURN</p>
                      <?php $total_monthly_return = 0?>
-                     <?php $dates_return = ''?>
+                     <?php $dates_return = $date_return = ''?>
+                     <?php $visiblilty = 'invisible'; ?>
                      <?php $ctr_monthly_returns = $monthly_returns->num_rows()?>
                      <?php if ($ctr_monthly_returns > 0){?>
+                     <?php $visiblilty = ''; ?>
                      <?php foreach ($monthly_returns->result() as $row){?>
                      <?php
-                     if ($ctr_monthly_returns == 1)
+                     $date_return = $row->date_return;
+                     if ($ctr_monthly_returns == 1){
                         $dates_return = ', '.date('j', strtotime($row->date_return));
-                     else
+                        
+                     }
+                     else{
                         $dates_return .= ', '.date('j', strtotime($row->date_return));
+                     }
                      ?>
                      <?php $total_monthly_return += $row->monthly_return;}?>    
                      <?php }?>
                      <h4>₱ <?php echo number_format($total_monthly_return,2)?></h4>
-                     <small>As of <?php echo ucfirst(date('F')).' '.substr($dates_return, 2). ', '.date('Y')?></small>
+                     <?php if ($visiblilty == '') {?>
+                        <small>Date return <?php echo ucfirst(date('F', strtotime($date_return))).' '.substr($dates_return, 2). ', '.date('Y')?></small>
+                     <?php } else { ?>
+                     <small>Not yet avaiblable</small>
+                     <?php } ?>
                   </div>
                   <div class="progress md-progress" style="height: 10px">
                      <div class="progress-bar progress-bar-striped progress-bar-animated bg teal rounded-right" role="progressbar" style="width: 100%; height: 10px" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>

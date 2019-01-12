@@ -1,5 +1,5 @@
 <main class="mainlayout" style="margin-top: 6%">
-   <div class="container-fluid" style="min-height: 600px">
+   <div class="container-fluid" style="min-height: 650px">
       <!-- Intro -->  
       <section class="section completeprofile-section my-5">
          <ol class="breadcrumb">
@@ -17,14 +17,16 @@
                      </div>
                      <p>AMOUNT LOAN</p>
                      <?php $total_loan = $count_loan = 0; ?>
-                     <?php if ($my_loan->num_rows() > 0){?>   
+                     <?php $visibility = 'invisible'; ?>
+                     <?php if ($my_loan->num_rows() > 0){?>
+                     <?php $visibility  = '';?>
                      <?php foreach ($my_loan->result() as $row){?>
                      <?php $total_loan += $row->loan_amount; ?>
                      <?php $count_loan++;?>
                      <?php }?>
                      <?php }?>
                      <h4>₱ <?php echo number_format($total_loan,2) ?></h4>
-                     <small>Active (<?php echo $count_loan?>) <a href="<?php echo base_url('borrower/loanbook')?>" class="white-text float-right mt-1">View loans</a></small>
+                     <small>Active (<?php echo $count_loan?>) <a href="<?php echo base_url('borrower/loanbook')?>" class="white-text float-right mt-1 <?php echo $visibility ?>">View loans</a></small>
                   </div>
                   <div class="progress md-progress" style="height: 10px">
                      <div class="progress-bar progress-bar-striped progress-bar-animated bg teal rounded-right" role="progressbar" style="width: 100%; height: 10px" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
@@ -41,15 +43,18 @@
                <div class="card classic-admin-card teal accent-4">
                   <div class="card-body text-dark">
                      <div class="pull-right">
-                        <i class="fa fa-2x fa-calendar-check-o"></i>
+                        <i class="fa fa-2x fa-money"></i>
                      </div>
                      <p>REPAYMENT (<?php echo strtoupper(date('F')) ;?>)</p>
                      <?php $total_monthly_repayment = 0?>
-                     <?php $dates_due = ''?>
+                     <?php $dates_due = $due_date = ''?>
+                     <?php $visiblilty = 'invisible'; ?>
                      <?php $ctr_monthly_repayments = $monthly_repayments->num_rows()?>
                      <?php if ($ctr_monthly_repayments > 0){?>
+                     <?php $visiblilty = ''; ?>
                      <?php foreach ($monthly_repayments->result() as $row){?>
                      <?php
+                     $due_date = $row->due_date;
                         if ($ctr_monthly_repayments == 1)
                            $dates_due = ', '.date('j', strtotime($row->due_date));
                         else
@@ -58,7 +63,11 @@
                      <?php $total_monthly_repayment += $row->monthly_repayment;}?>    
                      <?php }?>
                      <h4>₱ <?php echo number_format($total_monthly_repayment,2)?></h4>
-                     <small>As of <?php echo ucfirst(date('F')).' '.substr($dates_due, 2). ', '.date('Y')?></small>
+                     <?php if ($visiblilty == '') {?>
+                        <small>Due date <?php echo ucfirst(date('F', strtotime($due_date))).' '.substr($dates_due, 2). ', '.date('Y')?></small>
+                     <?php } else { ?>
+                     <small>Not yet avaiblable</small>
+                     <?php } ?>
                   </div>
                   <div class="progress md-progress" style="height: 10px">
                      <div class="progress-bar progress-bar-striped progress-bar-animated bg teal rounded-right" role="progressbar" style="width: 100%; height: 10px" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
@@ -75,7 +84,7 @@
                <div class="card classic-admin-card teal accent-4">
                   <div class="card-body text-dark">
                      <div class="pull-right">
-                        <i class="fa fa-2x fa-calendar"></i>
+                        <i class="fa fa-2x fa-money"></i>
                      </div>
                      <p>TOTAL SAVINGS</p>
                      <?php $total_savings = 0.00;?>
@@ -102,7 +111,7 @@
                <div class="card classic-admin-card teal accent-4">
                   <div class="card-body text-dark">
                      <div class="pull-right">
-                        <i class="fa fa-2x fa-balance-scale"></i>
+                        <i class="fa fa-2x fa-money"></i>
                      </div>
                      <p>OUTSTANDING PRINCIPAL</p>
                      <?php foreach ($outstanding_balance->result() as $row){?>

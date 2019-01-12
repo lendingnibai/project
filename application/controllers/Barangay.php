@@ -1350,6 +1350,7 @@ class Barangay extends MY_Controller {
 					'end_term' => $end_term
 				);
 				$investment_id = $this->im->add_investment($investment_data);
+				
 				if ($investment_id > 0) 
 				{
 					//INSERT TO LENDER MONTHLY RETURN TABLE

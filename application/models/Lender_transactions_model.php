@@ -15,9 +15,14 @@ class Lender_transactions_model extends CI_Model {
 
 	public function get_lender_current_balance($lender_id)
 	{
-		$query = "SELECT SUM(credit) - SUM(debit) AS current_balance FROM ".$this->table." WHERE `lender_id` = $lender_id";
+		$query = "
+		SELECT SUM(credit) - SUM(debit) AS current_balance 
+		FROM lender_transactions
+		WHERE `lender_id` = $lender_id
+		AND `type_code` != 4";
 		$result = $this->db->query($query);
 		return $result;
+		// != 4 para di ma apil ug kwenta ang investment puhon
 	}
 
 	public function get_available_balance_from_many_brgy($lender_id)

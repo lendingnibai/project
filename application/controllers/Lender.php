@@ -106,8 +106,9 @@ class Lender extends MY_Controller {
 		//TOTAL INTEREST EARNED
 		$data['interest_earned'] = $this->lmrm->total_interest_earned($this->session->lender_id);
 		//MONTHLY RETURNS GROUP BY
-		$data['monthly_returns'] = $this->lmrm->my_monthly_returns_group_by($this->session->lender_id, date('m'));
-
+		$data['monthly_returns'] = $this->lmrm->my_monthly_returns_group_by($this->session->lender_id, date('m'), date('Y'));
+		// var_dump($data['monthly_returns']->result());
+		// die();
 		$data['transactions_limit'] = $this->ltm->get_lender_transactions_limit($this->session->lender_id);
 		$data['investments_limit'] = $this->im->get_lender_investments_limit($this->session->lender_id);
 

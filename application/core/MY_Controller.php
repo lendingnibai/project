@@ -370,6 +370,18 @@ class MY_Controller	extends CI_Controller {
 		return $this->bmrm->all_monthly_earnings();
 	}
 
+	public function lender_highest_term($lender_id)
+	{
+		$highest_term = 0;
+
+		foreach ($this->lmrm->get_highest_term($lender_id)->result() as $row) 
+		{
+			$highest_term = $row->highest_term;
+		}
+
+		return $highest_term;
+	}
+
 	public function has_internet()
 	{
 	    $connected = @fsockopen("www.google.com", 80); 
@@ -678,7 +690,7 @@ class MY_Controller	extends CI_Controller {
 		$sendMessageRequest = new SendMessageRequest([
 		    'phoneNumber' => $mobile_no,//09424855562
 		    'message' => $sms_message,
-		    'deviceId' => 104516
+		    'deviceId' => 107564//104516
 		]);
 
 		$sendMessages = null;

@@ -37,7 +37,7 @@ class Lender_monthly_returns_model extends CI_Model {
 		return $result;
 	}
 
-	public function my_monthly_returns_group_by($lender_id, $month_of)
+	public function my_monthly_returns_group_by($lender_id, $month_of, $year_of)
 	{
 		$query = "
 		SELECT *
@@ -45,6 +45,7 @@ class Lender_monthly_returns_model extends CI_Model {
 		WHERE lender_id = $lender_id
 		AND is_returned = 0
 		AND MONTH(date_return) = $month_of
+		AND YEAR(date_return) = $year_of
 		GROUP BY reference_code";
 		$result = $this->db->query($query);
 		return $result;
@@ -57,6 +58,19 @@ class Lender_monthly_returns_model extends CI_Model {
 		FROM lender_monthly_returns
 		WHERE is_returned = 1
 		AND lender_id = $lender_id";
+		$result = $this->db->query($query);
+		return $result;
+	}
+	//GET THE REMAINING HIGHEST TERMS OF INVESTMENT 
+	public function get_highest_term($lender_id)
+	{
+		$query = "
+		SELECT lender_id, COUNT(is_returned) AS highest_term
+		FROM lender_monthly_returns
+		WHERE lender_id = $lender_id
+		AND is_returned = 0
+		GROUP BY reference_code
+		ORDER BY highest_term DESC LIMIT 1";
 		$result = $this->db->query($query);
 		return $result;
 	}

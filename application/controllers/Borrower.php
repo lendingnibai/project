@@ -90,7 +90,7 @@ class Borrower extends MY_Controller {
 		$data['my_loan'] = $this->loans->get_this_loan($loan_data);
 		$data['savings'] = $this->bmrm->borrower_savings($this->session->borrower_id);
 		$data['outstanding_balance'] = $this->btm->get_borrower_outstanding_current_balance($this->session->borrower_id);
-		$data['monthly_repayments'] = $this->bmrm->my_monthly_repayment_group_by($this->session->borrower_id, date('m'));
+		$data['monthly_repayments'] = $this->bmrm->my_monthly_repayment_group_by($this->session->borrower_id, date('m'), date('Y'));
 		$data['transactions_limit'] = $this->btm->get_borrower_transactions_limit($this->session->borrower_id);
 		$data['loans_limit'] = $this->loans->get_borrower_loans_limit($this->session->borrower_id);
 
@@ -157,6 +157,8 @@ class Borrower extends MY_Controller {
 		$total_invest = 0;
 		$max_loan = 0;
 		$min_loan = 0;
+		$co_maker_1_highest_term = null;
+		$co_maker_2_highest_term = null;
 
 		$get_max_min_loan = $this->mmlim->get_this_min_max_invest_loan($this->session->registered_brgy_id);
 		if ($get_max_min_loan->num_rows() > 0) 
@@ -207,6 +209,13 @@ class Borrower extends MY_Controller {
 				}
 			}
 		}
+
+		if ($co_maker_1) {
+			$co_maker_1_highest_term = $this->lender_highest_term($co_maker_1);
+		}
+		if ($co_maker_2) {
+			$co_maker_2_highest_term = $this->lender_highest_term($co_maker_2);
+		}
 			
 		if (!$loan_term && !$loan_amount && !$full_name && !$mobile_no && !$email && !$address && !$co_maker_1 && !$co_maker_2 && !$source_of_income && !$monthly_income && !$gov_id && !$bill &&!$payslip && !$brgy_permit && !$mayor_permit) {
 			return 'Please fill all the required fields';
@@ -237,6 +246,12 @@ class Borrower extends MY_Controller {
 		}
 		elseif ($co_maker_1 == $co_maker_2) {
 			return 'Please select different co-maker';
+		}
+		elseif ($co_maker_1_highest_term != null && $co_maker_1_highest_term <= $loan_term) {
+			return 'First co-maker is not compatible';
+		}
+		elseif ($co_maker_2_highest_term != null && $co_maker_2_highest_term <= $loan_term) {
+			return 'Second co-maker is not compatible';
 		}
 		elseif (!$gov_id) {
 			return 'Please upload government ID';
